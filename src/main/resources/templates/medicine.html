@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="utf-8">
+<head>
+    <meta content="text/html;charset=UTF-8"/>
+    <meta http-equiv="x-ua-compatible" content="IE=edge"/>
+    <meta name="viewpoint" content="width=device-width, initial-scale=1"/>
+    <link th:href="@{/favicon.ico}" rel="icon" type="image/x-icon">
+    <link th:href="@{/css/search_area.css}" rel="stylesheet">
+    <link th:href="@{/datatable/jquery.dataTables.css}" rel="stylesheet">
+    <link th:href="@{/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/css/medicine.css}" rel="stylesheet">
+    <title>中药成分结构数据专题-中药</title>
+</head>
+<body th:style="'background:url('+@{/images/backperson1.png}+') right bottom no-repeat fixed,url('+@{/images/backperson2.png}+') left bottom no-repeat fixed;background-size: 450px;background-color: #f5f5f5;'">
+<div th:fragment="navbar" class="wrapper" role="navigation">
+    <div th:replace="fragments/header :: header">Header</div>
+</div>
+<div class="content-container">
+    <div class="sub-nav">
+        当前位置：<a href="http://zcy.ckcest.cn/tcm/"> 首页 </a>> <a href="../home">中药成分结构数据专题</a>
+        &gt;中药
+    </div>
+    <div class="detail-head" id="tcm_detail_head" th:text="'药物：'+${name}">
+        药物：麻黄
+    </div>
+    <div class="basic-content">
+        <div class="new-title">
+            <span class="title-icon"></span>
+            <span class="title-name">基本信息</span>
+        </div>
+        <div class="basic-info-box">
+            <div class="box-content">
+                <div class="content-title">中&nbsp;&nbsp;文&nbsp;&nbsp;名</div>
+                <span class="no-pic" id="chinese_name" th:text="${name}">麻黄</span>
+            </div>
+            <div class="box-content">
+                <div class="content-title">拉&nbsp;&nbsp;丁&nbsp;&nbsp;名</div>
+                <span class="no-pic" th:text="${latin_name}">EPHEDRAE HERBA</span>
+            </div>
+            <div class="box-content">
+                <div class="content-title">功&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;效</div>
+                <span class="no-pic" th:text="${med_function}">发汗，平喘，利水。治伤寒表实，发热恶寒无汗、头痛鼻塞、骨节疼痛；咳嗽气喘；风水浮肿，小便不利；风邪顽痹，皮肤不仁，风疹瘙痒。①《本经》："主中风、伤寒头痛，温疟。发表出汗，去邪热气，止咳逆上气，除寒热，破症坚积聚。"②《别录》："主五脏邪气缓急，风胁痛，字乳余疾。止好唾，通腠理，解肌；泄邪恶气，消赤黑斑毒。"③《药性论》："治身上毒风顽痹，皮肉不仁。"④《日华子本草》："通九窍，调血脉，御山岚瘴气。"⑤《珍珠囊》："泄卫中实，去营中寒，发太阳、少阴之汗。"⑥《滇南本草》："治鼻窍闭塞不通、香臭不闻，肺寒咳嗽。"⑦《纲目》："散赤目肿痛，水肿，风肿，产后血滞。"⑧《科学的民间药草》："治气喘，干草热，百日咳，气管支炎等。"⑨《现代实用中药》："对关节疼痛有效。"J⑩《中药形性经验鉴别法》："治腹痛，下痢，疝气，目疾及感冒。"</span>
+            </div>
+            <div class="box-content">
+                <div class="content-title">性&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;味</div>
+                <span class="no-pic" th:text="${med_property}">辛苦，温。①《本经》：味苦，温。②《药性论》：味甘，平。③《医学启原》：《主治秘要》云，性温，味甘辛。</span>
+            </div>
+            <div class="box-content">
+                <div class="content-title">归&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;经</div>
+                <span class="no-pic" th:text="${med_tropisw}">入肺、膀胱经。①《珍珠囊》："入手大阴。"②《汤液本草》："入足太阳经，走手少阴。"③《药品化义》："入肺、大肠、包络、膀胱四经。"</span>
+            </div>
+        </div>
+        <a th:if="${tcm_id} != null" class="tcm-link" target="_blank" th:href="'http://zcy.ckcest.cn/tcm/search/med?medname='+${tcm_name}+'&medid='+${tcm_id}">
+            —>更多
+        </a>
+    </div>
+    <div class="basic-content">
+        <div class="new-title">
+            <span class="title-icon"></span>
+            <span class="title-name">相关基源</span>
+        </div>
+        <div class="origin-content">
+            <span th:text="${med_origin}">为麻黄科植物草麻黄、木贼麻黄或中麻黄的草质茎。8～10月间割取绿色细枝，或连根拔起，去净泥土及根部，放通风处晾干或晾至6成干时，再晒干。放置干燥通风处，防潮防霉。《中药大辞典》</span>
+        </div>
+        <div class="origin-list">
+            <ul class="row">
+                <li th:each="origin : ${origins}" class="col-md-2">
+                    <a th:text="${origin.value}" th:href="'../origin/'+${origin.key}"></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="basic-content">
+        <div class="new-title">
+            <span class="title-icon"></span>
+            <span class="title-name">相关化合物</span>
+        </div>
+        <table id="table-result" class="cell-border hover stripe">
+            <thead>
+            <tr>
+                <th>中药</th>
+                <th>化合物</th>
+                <th>基源</th>
+                <th>分子式</th>
+                <th>分子量</th>
+            </tr>
+            </thead>
+
+        </table>
+    </div>
+</div>
+<div th:replace="fragments/footer :: footer">footer</div>
+<script th:src="@{/js/jquery-3.2.1/jquery.min.js}" type="text/javascript"></script>
+<script th:src="@{/datatable/jquery.dataTables.js}" type="text/javascript"></script>
+<script th:src="@{/js/medicine.js}" type="text/javascript"></script>
+</body>
+</html>

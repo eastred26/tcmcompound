@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="utf-8">
+<head>
+    <meta content="text/html;charset=UTF-8"/>
+    <meta http-equiv="x-ua-compatible" content="IE=edge"/>
+    <meta name="viewpoint" content="width=device-width, initial-scale=1"/>
+    <link th:href="@{/favicon.ico}" rel="icon" type="image/x-icon">
+    <link th:href="@{/css/search_area.css}" rel="stylesheet">
+    <link th:href="@{/datatable/jquery.dataTables.css}" rel="stylesheet">
+    <link th:href="@{/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/css/origin.css}" rel="stylesheet">
+    <title>中药成分结构数据专题-基源</title>
+</head>
+<body th:style="'background:url('+@{/images/backperson1.png}+') right bottom no-repeat fixed,url('+@{/images/backperson2.png}+') left bottom no-repeat fixed;background-size: 450px;background-color: #f5f5f5;'">
+<div th:fragment="navbar" class="wrapper" role="navigation">
+    <div th:replace="fragments/header :: header">Header</div>
+</div>
+<div class="content-container">
+    <div class="sub-nav">
+        当前位置：<a href="http://zcy.ckcest.cn/tcm/"> 首页 </a>> <a href="../home">中药成分结构数据专题</a>
+        &gt;基源
+    </div>
+    <div class="detail-head" id="tcm_detail_head" th:text="'基源：'+${name}">
+        基源：草麻黄
+    </div>
+    <div class="basic-content">
+        <div class="new-title">
+            <span class="title-icon"></span>
+            <span class="title-name">基本信息</span>
+        </div>
+        <div class="basic-info-box">
+            <div class="box-content">
+                <div class="content-title">中&nbsp;&nbsp;文&nbsp;&nbsp;名</div>
+                <span class="no-pic" id='chinese_name' th:text="${name}">草麻黄</span>
+            </div>
+            <div class="box-content">
+                <div class="content-title">拉&nbsp;&nbsp;丁&nbsp;&nbsp;名</div>
+                <span class="no-pic" th:text="${latin_name}">Ephedra sinica</span>
+            </div>
+            <div class="box-content">
+                <div class="content-title">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;门&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                <span class="no-pic" th:text="${origin_phylum}">裸子植物门</span>
+            </div>
+            <div class="box-content">
+                <div class="content-title">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;纲&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                <span class="no-pic" th:text="${origin_class}">盖子植物纲</span>
+            </div>
+            <div class="box-content">
+                <div class="content-title">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;目&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                <span class="no-pic" th:text="${origin_order}">麻黄目</span>
+            </div>
+            <div class="box-content">
+                <div class="content-title">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;科&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                <span class="no-pic" th:text="${origin_family}">麻黄科</span>
+            </div>
+            <div class="box-content">
+                <div class="content-title">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;纲&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                <span class="no-pic" th:text="${origin_genus}">麻黄属</span>
+            </div>
+            <div class="box-content">
+                <div class="content-title">外&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;观</div>
+                <span class="no-pic" th:text="${appearance}">草本状灌木，高20-40厘米；木质茎短或成匍匐状，小枝直伸或微曲，表面细纵槽纹常不明显，节间长2.5-5.5厘米，多为3-4厘米，径约2毫米。叶2裂，鞘占全长1/3-2/3，裂片锐三角形，先端急尖。雄球花多成复穗状，常具总梗，苞片通常4对，雄蕊7-8，花丝合生，稀先端稍分离；雌球花单生，在幼枝上顶生，在老枝上腋生，常在成熟过程中基部有梗抽出，使雌球花呈侧枝顶生状，卵圆形或矩圆状卵圆形，苞片4对，下部3对合生部分占1/4-1/3,最上一对合生部分达1/2以上；雌花2,胚珠的珠被管长l毫米或稍长，直立或先端微弯，管口隙裂窄长，约占全长的1/4-1/2,裂口边缘不整齐，常被少数毛茸。雌球花成熟时肉质红色，矩圆状卵圆形或近于圆球形，长约8毫米，径6-7毫米；种子通常2粒，包于苞片内，不露出或与苞片等长，黑红色或、灰褐色，三角状卵圆形或宽卵圆形，长5-6毫米，径2.5-3.5毫米，表面具细皱纹，种脐明显，半圆形。花期5-6月，种子8-9月成熟。中国植物志</span>
+            </div>
+            <div class="box-content">
+                <div class="content-title">产&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;地</div>
+                <span class="no-pic" th:text="${location}">为重要的药用植物，生物碱含量丰富，仅次于木贼麻黄。木质茎少，易加工提炼；由于常生于平原、山坡、河床、草原等处，故易于采收，因此在药用上所用的数量往往较木贼麻黄为多，为我国提制麻黄碱的主要植物。中国植物志</span>
+            </div>
+        </div>
+        <a th:if="${plant_id} != null" class="tcm-link" target="_blank" th:href="'http://zcy.ckcest.cn/tcm/search/plant?plantname='+${name}+'&oriid='+${plant_id} + '&oritype=plant'">
+            —>更多
+        </a>
+    </div>
+    <div class="basic-content">
+        <div class="new-title">
+            <span class="title-icon"></span>
+            <span class="title-name">相关中药</span>
+        </div>
+        <div class="origin-list">
+            <ul class="row">
+                <li th:each="med : ${meds}" class="col-md-2">
+                    <a th:text="${med.value}" th:href="'../medicine/'+${med.key}"></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="basic-content">
+        <div class="new-title">
+            <span class="title-icon"></span>
+            <span class="title-name">相关化合物</span>
+        </div>
+        <table id="table-result" class="cell-border hover stripe">
+            <thead>
+            <tr>
+                <th>基源</th>
+                <th>化合物</th>
+                <th>中药</th>
+                <th>分子式</th>
+                <th>分子量</th>
+            </tr>
+            </thead>
+
+        </table>
+    </div>
+</div>
+<div th:replace="fragments/footer :: footer">footer</div>
+<script th:src="@{/js/jquery-3.2.1/jquery.min.js}" type="text/javascript"></script>
+<script th:src="@{/datatable/jquery.dataTables.js}" type="text/javascript"></script>
+<script th:src="@{/js/origin.js}" type="text/javascript"></script>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<div th:fragment="header">
+    <link rel="stylesheet" th:href="@{/bootstrap/css/icomoon.css}">
+    <link rel="stylesheet" th:href="@{/bootstrap/css/animate.css}">
+    <link rel="stylesheet" th:href="@{/bootstrap/css/animate.css}">
+    <link rel="stylesheet" th:href="@{/semanticui/css/semantic.min.css}">
+
+    <link rel="stylesheet" type="text/css" th:href="@{/css/fragments/header.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/fragments/footer.css}">
+    <meta name="keywords" content="中草药专业知识服务系统,tcm,中国工程科技知识中心,ckcest,服务药方病证分析,文献分析,专业知识问答,中药鉴别,中草药词典,医案,医生助手,病友之家,企业之友,">
+    <meta name="description" content="中草药专业知识服务系统是中国工程科技知识中心的子项目，中草药子系统围绕中医药的核心要素中药，汇聚打通中医药领域古今多源异构的数据资源，进行“药方病证”知识全方位、多角度、高关联的揭示与探究，为领域用户的学习、科研和交流提供检索浏览、问答阅读、分析计算、专题应用等知识服务。">
+
+    <script src="http://ers.baidu.com/app/s.js?siteId=9269820&amp;goTop=1" charset="utf-8"></script><script src="http://push.zhanzhang.baidu.com/push.js"></script><script src="https://hm.baidu.com/hm.js?4c81c993a71c7bc73a0023722c182141"></script><script src="https://hm.baidu.com/hm.js?789fd650fa0be6a2a064d019d890b87f"></script>
+    <div>
+        <div id="common_nav">
+            <div class="cf" id="common_nav_L2">
+                <ul>
+                    <li style="background: #444444;"><a style="color:#eee;background: #444444;" href="http://www.ckcest.cn/" target="_blank">知识中心首页</a></li>
+                    <li style="background: #444444;"><a style="color:#eee;background: #444444;" class="current" href="http://zcy.ckcest.cn/tcm/">中草药系统首页</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="logo-area clearfix">
+        <div class="logo container">
+            <a style="width:50%"  class="pull-left" href="http://zcy.ckcest.cn/tcm/" target="_blank">
+                <img style="width:66%;height:66%;"  th:src="@{/images/logo_new.png}">
+            </a>
+        </div>
+    </div>
+
+    <div class="resource-nav">
+        <ul class="container resource">
+            <li class="col-3"><a href="http://zcy.ckcest.cn/tcm" class="link">首页</a></li>
+            <li class="rButton col-3">
+                <a href="http://zcy.ckcest.cn/tcm/nav/home" class="link">数据资源</a>
+                <div class="layerbox" style="display: none;">
+                    <ul class="container">
+                        <li><a href="http://zcy.ckcest.cn/tcm/nav/basicKnowledge" title="领域实体 · 医药百科">医药百科</a></li>
+                        <li><a href="http://zcy.ckcest.cn/tcm/nav/entityList" title="领域概念  · 学科知识">基础概念</a></li>
+                        <li><a href="http://zcy.ckcest.cn/MedicalRecord/browse" title="领域应用 · 中医医案">医案</a></li>
+                        <li><a href="http://zcy.ckcest.cn/tcm/nav/health" title="领域应用 · 养生">养生</a></li>
+                        <li><a href="http://zcy.ckcest.cn/tcm/nav/news" title="新闻资讯">新闻资讯</a></li>
+                        <li><a href="http://zcy.ckcest.cn/tcm/nav/subject/videoList" title="精品课程">课程视频</a></li>
+                        <li><a href="http://zcy.ckcest.cn/tcm/dic/home" title="主题词表">主题词表</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li class="rButton col-3">
+                <a href="http://zcy.ckcest.cn/tcm/nav/applications" class="link">应用服务</a>
+                <div class="layerbox" style="display: none;">
+                    <ul class="container">
+                        <li><a href="http://zcy.ckcest.cn/MedicalRecord/index" title="">医案服务</a></li>
+                        <li><a href="/tcm/auxiliary/home" title="">药方病证分析</a></li>
+                        <li><a href="http://zcy.ckcest.cn/paper/home" title="">文献分析</a></li>
+                        <li><a href="/tcm/qaos/home" title="">知识问答</a></li>
+                        <li><a href="/tcm/identification/home" title="">中药鉴别</a></li>
+                        <li><a href="http://zcy.ckcest.cn/Toolkit/" title="">数据分析Toolkit</a></li>
+                        <li><a href="/tcm/nav/subject/courseIntro" title="">学科知识</a></li>
+                        <li><a href="http://zcy.ckcest.cn/DocAssist" title="">医书阅读</a></li>
+                        <li><a href="/tcm/dic/home" title="">词典系统</a></li>
+                        <li><a href="http://zcy.ckcest.cn/medImageSearch/">图像系统</a></li>
+                        <li><a></a></li>
+                        <li><a href="/tcm/#all-services">更多>></a></li>
+                    </ul>
+                </div>
+            </li>
+            <li class="rButton col-3">
+                <a href="javascript:void(0)">交流互动</a>
+                <div class="layerbox" style="display: none;">
+                    <ul class="container">
+                        <li><a href="http://zcy.ckcest.cn/tcm/if">企业之友</a></li>
+                        <li><a href="http://zcy.ckcest.cn/bingu/" title="病友之家">病友之家 </a></li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+</div>
+</html>

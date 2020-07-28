@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="utf-8">
+<head>
+    <meta content="text/html;charset=UTF-8"/>
+    <meta http-equiv="x-ua-compatible" content="IE=edge"/>
+    <meta name="viewpoint" content="width=device-width, initial-scale=1"/>
+    <link th:href="@{favicon.ico}" rel="icon" type="image/x-icon">
+    <link th:href="@{css/search_area.css}" rel="stylesheet">
+    <link th:href="@{datatable/jquery.dataTables.css}" rel="stylesheet">
+    <link th:href="@{bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{css/home.css}" rel="stylesheet">
+    <title>中药成分结构数据专题</title>
+</head>
+<body th:style="'background:url('+@{/images/backperson1.png}+') right bottom no-repeat fixed,url('+@{/images/backperson2.png}+') left bottom no-repeat fixed;background-size: 450px;background-color: #f5f5f5;'">
+<div th:fragment="navbar" class="wrapper" role="navigation">
+    <div th:replace="fragments/header :: header">Header</div>
+</div>
+<div class="content-container">
+    <div class="search-container">
+        <div class="search-content">
+            <div class="sub-nav">
+                当前位置：<a href="http://zcy.ckcest.cn/tcm/"> 首页 </a>> <a href="././home">中药成分结构数据专题</a>
+            </div>
+            <div id="search_cf" class="search cf">
+                <table  class="search_table" cellpadding="0">
+                    <tr id="search_cell">
+                        <!-- 关键字输入框 -->
+                        <td>
+                            <input id="query_input" maxlength="40" placeholder="查询中药成分结构数据，请输入中药、基源、化合物名">
+                        </td>
+                        <!-- 搜索文字和图标 -->
+                        <td>
+                            <a class="button" href="javascript:void(0);" id="identification_search_btn">搜索</a>
+                            <!--<i id="identification_search_icon" class="icon ion-search"></i>-->
+                        </td>
+                    </tr>
+                </table>
+                <br>
+                <div id="radio_center" >搜索选项：&nbsp;
+                    <input type="radio" name="search_type" value="med" checked>中药&nbsp;&nbsp;
+                    <input type="radio" name="search_type" value="origin">基源&nbsp;&nbsp;
+                    <input type="radio" name="search_type" value="compound">化合物&nbsp;&nbsp;
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-12" style="margin-top: 30px;">
+        <ul class="nav nav-tabs justify-content-center" id="myTab" role="tablist">
+            <li class="nav-item col-md-3">
+                <a class="nav-link active" id="med-tab" data-toggle="tab" href="#med-panel" role="tab"
+                   aria-selected="true">
+                    <h5>中药</h5>
+                </a>
+            </li>
+            <li class="nav-item col-md-3">
+                <a class="nav-link" id="origin-tab" data-toggle="tab" href="#origin-panel" role="tab"
+                   aria-selected="false">
+                    <h5>基源</h5>
+                </a>
+            </li>
+            <li class="nav-item col-md-3">
+                <a class="nav-link" id="compound-tab" data-toggle="tab" href="#compound-panel" role="tab"
+                   aria-selected="false">
+                    <h5>化合物结构类型</h5>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="tab-content" id="myTabContent" style="margin-top: 50px;">
+        <div class="tab-pane fade show active" id="med-panel" role="tabpanel" aria-labelledby="med-tab">
+            <div th:each="med : ${medMap}" class="alphabet-med">
+                <p class="alphabet-name" th:text="${med.key}"></p>
+                <ul class="row">
+                    <li th:each="medItem : ${med.value}" th:if="${medItemStat.index<6}" class="col-md-2">
+                        <a class="med-name"  th:text="${medItem.value}" th:href="'./medicine/'+${medItem.key}"></a>
+                    </li></ul>
+                <a th:if="${med.value.size()>6}" data-toggle="collapse" data-parent="#med-panel"
+                   th:href="'#collapse'+'_med_'+${medStat.index}" onclick="changeState(this)" class="toggle-more">更多+</a>
+                <div th:id="'collapse'+'_med_'+${medStat.index}" class="panel-collapse collapse in">
+                    <ul class="row">
+                        <li th:each="medItem : ${med.value}" th:if="${medItemStat.index>=6}" class="col-md-2">
+                            <a class="med-name"  th:text="${medItem.value}" th:href="'./medicine/'+${medItem.key}"></a>
+                        </li></ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="tab-pane fade" id="origin-panel" role="tabpanel" aria-labelledby="origin-tab">
+            <div th:each="origin : ${medOriginMap}" class="alphabet-med">
+                <p class="alphabet-name" th:text="${origin.key}"></p>
+                <ul class="row">
+                    <li th:each="originItem : ${origin.value}" th:if="${originItemStat.index<6}" class="col-md-2">
+                        <a class="med-name"  th:text="${originItem.value}" th:href="'./origin/'+${originItem.key}"></a>
+                    </li></ul>
+                <a th:if="${origin.value.size()>6}" data-toggle="collapse" data-parent="#origin-panel"
+                   th:href="'#collapse'+'_origin_'+${originStat.index}" onclick="changeState(this)" class="toggle-more">更多+</a>
+                <div th:id="'collapse'+'_origin_'+${originStat.index}" class="panel-collapse collapse in">
+                    <ul class="row">
+                        <li th:each="originItem : ${origin.value}" th:if="${originItemStat.index>=6}" class="col-md-2">
+                            <a class="med-name"  th:text="${originItem.value}" th:href="'./origin/'+${originItem.key}"></a>
+                        </li></ul>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="compound-panel" role="tabpanel" aria-labelledby="compound-tab">
+            <div th:each="structure : ${structureNameMap}" class="alphabet-med">
+                <p class="alphabet-name" th:text="${structure.key}"></p>
+                <ul class="row">
+                    <li th:each="structureItem : ${structure.value}" th:if="${structureItemStat.index<6}" class="col-md-2">
+                        <a class="med-name"  th:text="${structureItem}" th:href="'./search/result?kw='+${structureItem}+'&type=compound'"></a>
+                    </li></ul>
+                <a th:if="${structure.value.size()>6}" data-toggle="collapse" data-parent="#compound-panel"
+                   th:href="'#collapse'+'_structure_'+${structureStat.index}" onclick="changeState(this)" class="toggle-more">更多+</a>
+                <div th:id="'collapse'+'_structure_'+${structureStat.index}" class="panel-collapse collapse in">
+                    <ul class="row">
+                        <li th:each="structureItem : ${structure.value}" th:if="${structureItemStat.index>=6}" class="col-md-2">
+                            <a class="med-name"  th:text="${structureItem}" th:href="'./search/result?kw='+${structureItem}+'&type=compound'"></a>
+                        </li></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--提示框-->
+    <div id="tip-modal"class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">提醒</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>请输入关键字！</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+                    <!--                        <button type="button" class="btn btn-primary">Save changes</button>-->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:replace="fragments/footer :: footer">footer</div>
+<script th:src="@{js/jquery-3.2.1/jquery.min.js}" type="text/javascript"></script>
+<script th:src="@{/js/home.js}" type="text/javascript"></script>
+</body>
+</html>

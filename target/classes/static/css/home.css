@@ -1,0 +1,226 @@
+body {
+    margin: 0;
+    background-size: 400px;
+    background-color: #f5f5f5;
+}
+.module-select a:link{
+    text-decoration: none;
+    color: #fff;
+}
+.module-select  a:visited{
+    text-decoration: none;
+    color: #fff;
+}
+.module-select a:hover,
+a:active {
+    text-decoration: none;
+    color: #fff;
+}
+.content-container {
+    min-height: 450px;
+    width: 1200px;
+    margin: 0 auto;
+    padding-bottom: 200px;
+    box-shadow: 0 0 3px #aaaaaa;
+    background-color: #fff;
+}
+.search-container{
+    width: 100%;
+    padding: 30px 0;
+}
+.search-content{
+    margin: auto;
+    width: 1200px;
+}
+.sub-nav{
+    margin: 20px 80px 50px;
+    color: #000;
+}
+.sub-nav a{
+    margin: 20px 0;
+    text-decoration: none;
+    color: #000;
+}
+#query_input{
+    width:500px;
+    height:46px;
+    border: 1px solid #379bc3;
+    padding: 10px;
+}
+.module-button{
+    display: block;
+    margin: 50px auto;
+    width: 300px;
+    height: 60px;
+    box-sizing: border-box;
+    line-height: 60px;
+    font-size: 18px;
+    text-align: center;
+    background: #68ABB7;
+    color: #fff;
+}
+.module-top{
+    display: block;
+    margin: 20px 60px 10px;
+    width: 200px;
+    height: 40px;
+    box-sizing: border-box;
+    line-height: 40px;
+    font-size: 16px;
+    text-align: center;
+    background: #BB996D;
+    color: #fff;
+}
+.content{
+    margin: 10px 0 20px 150px;
+}
+.content li {
+    position: relative;
+    margin: 10px 5px;
+    height: 21px;
+    width: 250px;
+    list-style-type: none;
+    line-height: 20px;
+    font-size: 14px;
+    overflow: hidden;
+}
+.content li:before{
+    content: "";
+    position: absolute;
+    top: 6px;
+    width: 8px;
+    height: 8px;
+    border-radius: 4px;
+    display: block;
+    background-color: #169BD5;
+}
+.content li a{
+    display: inline-block;
+    text-decoration-style: none;
+    height: 21px;
+    line-height: 21px;
+    margin-left: 18px;
+    font-size: 16px;
+    color: #333;
+}
+#med-panel ul{
+    padding: 0 100px;
+    margin: 0 0;
+}
+#med-panel li{
+    list-style-type: none;
+    display: inline-block;
+    padding: 10px 10px;
+}
+#med-panel li p{
+    display: inline-block;
+    line-height: 18px;
+}
+#origin-panel ul{
+    padding: 0 100px;
+    margin: 0 0;
+}
+#origin-panel li{
+    list-style-type: none;
+    display: inline-block;
+    padding: 10px 10px;
+}
+#origin-panel li p{
+    display: inline-block;
+    line-height: 18px;
+}
+#compound-panel ul{
+    padding: 0 100px;
+    margin: 0 0;
+}
+#compound-panel li{
+    list-style-type: none;
+    display: inline-block;
+    padding: 10px 10px;
+}
+#compound-panel li p{
+    display: inline-block;
+    line-height: 18px;
+}
+.alphabet-name{
+    padding-right: 30px;
+    padding-left: 50px;
+    font-weight: bold;
+    font-size: 16px;
+    color: #0066CC;
+    margin-bottom: -10px;
+    display: inline-block;
+}
+.med-name{
+    color:#000000;
+}
+.alphabet-med{
+    box-shadow: 0 0 0 1px rgba(0,0,0,.1);
+    padding: 10px;
+    /*border-radius: 5px;*/
+    width: 1000px;
+    margin: 20px auto;
+    position: relative;
+}
+.toggle-more{
+    font-size: 14px;
+    position: absolute;
+    right:40px;
+    top:10px;
+}
+
+#radio_center{
+    text-align: center;
+}
+
+input[type=radio]{
+    /*去除浏览器默认样式*/
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    /*自定义样式*/
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    width: 20px;
+    height: 20px;
+    border: 1px solid #379bc3;
+    outline: none;
+    cursor: pointer;
+    /*设置为圆形，看起来是个单选框*/
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
+}
+
+input[type=radio]:after{
+    content: '';
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    display: block;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    background: #379bc3;
+    -webkit-border-radius: 12px;
+    -moz-border-radius: 12px;
+    border-radius: 12px;
+    -webkit-transform: scale(0);
+    -moz-transform: scale(0);
+    transform: scale(0);
+    -webkit-transition : all ease-in-out 300ms;
+    -moz-transition : all ease-in-out 300ms;
+    transition : all ease-in-out 300ms;
+}
+input[type=radio]:checked:after{
+    -webkit-transform: scale(1);
+    -moz-transform: scale(1);
+    transform: scale(1);
+}
+
+.nav .nav-item {
+    text-align: center;
+}

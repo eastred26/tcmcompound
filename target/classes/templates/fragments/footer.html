@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<footer th:fragment="footer">
+    <div class="clearfix" style="margin-bottom: 50px;"></div>
+    <div class="footer" style="margin-bottom:0px;">
+        <div class="footer_L2">
+            <div class="footer_about cf">
+
+                <dl class="dlLeft" id="dlLeft-first">
+                    <dt>法律声明</dt>
+                    <dd>
+                        <a href="http://zcy.ckcest.cn/tcm/user/agreementpage" target="_blank">注册服务条款</a>
+                    </dd>
+                    <dd>
+                        <a href="http://zcy.ckcest.cn/tcm/" target="_blank">首页</a>
+                    </dd>
+                </dl>
+
+                <dl class="dlLeft">
+                    <dt>帮助中心</dt>
+                    <dd>
+                        <a href="http://zcy.ckcest.cn/usercenter/feedback/FAQ/FAQPage" target="_blank">常见问题</a>
+                    </dd>
+                    <dd>
+                        <a href="http://zcy.ckcest.cn/tcm/user/getmanual" target="_blank">操作指南</a>
+                    </dd>
+                </dl>
+
+                <dl class="dlLeft">
+                    <dt>支持我们</dt>
+                    <dd>
+                        <a href="http://zcy.ckcest.cn/usercenter/feedback/feedback/askPage?iu=127.0.0.1"
+                           target="_blank">意见反馈</a>
+                    </dd>
+                    <dd>
+                        <a href="http://zcy.ckcest.cn/tcm/user/join_us" target="_blank">加入我们</a>
+                    </dd>
+                </dl>
+
+                <dl class="dlLeft">
+                    <dt>关于我们</dt>
+                    <dd><a href="http://zcy.ckcest.cn/tcm/user/aboutuspage" target="_blank">项目简介</a></dd>
+                    <dd><a href="http://zcy.ckcest.cn/tcm/user/aboutuspage#contact_us" target="_blank">联系我们</a>
+                    </dd>
+                </dl>
+            </div>
+
+            <div class="footer_links pull-left">
+                <span class="footer_links_title">友情链接：</span>
+                <span class="footer_links_list">
+                       <a href="http://www.cae.cn/cae/html/main/index.html" target="_blank">中国工程院</a>
+                       <a href="http://www.satcm.gov.cn/" target="_blank">国家中医药管理局</a>
+                       <a href="http://www.catcm.ac.cn/" target="_blank">中国中医科学院</a>
+                       <a href="http://www.sfda.gov.cn/WS01/CL0001/" target="_blank">国家食品药品监督管理总局</a>
+                       <a href="http://www.cma.org.cn/" target="_blank">中华医学会</a>
+                   </span>
+            </div>
+
+            <div class="footer_copy pull-right">
+                <div class="footer_copy_right">
+                    <p>地址：北京市西城区冰窖口胡同2号</p>
+                    <p>Copyright © 2012 <a href="http://www.ckcest.cn/" target="_blank">中国工程科技知识中心</a>
+                        ICP备案号：京ICP备14021735号-2</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <script th:src="@{js/jquery-3.2.1/jquery.min.js}" type="text/javascript"></script>
+    <script th:src="@{/bootstrap/js/bootstrap.js}"></script>
+    <script type="text/javascript" th:src="@{/js/fragments/nav_header.js}"></script>
+</footer>
+
+</html>
