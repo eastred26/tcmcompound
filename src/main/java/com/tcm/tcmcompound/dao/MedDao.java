@@ -1,13 +1,22 @@
 package com.tcm.tcmcompound.dao;
 
 import com.tcm.tcmcompound.pojo.Med;
+import org.apache.ibatis.annotations.Select;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Component;
+
 import java.util.List;
 
-public interface MedDao extends JpaRepository<Med, String> {
+@Component
+public interface MedDao {
+    @Select("SELECT * FROM med_yaodian")
     List<Med> findAll();
+    @Select("SELECT * FROM med_yaodian WHERE med_name_pinyin REGEXP #{alphabet} ORDER BY med_name_pinyin")
     List<Med> findByPinyinLikeOrderByPinyin(String alphabet);
+    @Select("SELECT * FROM med_yaodian WHERE med_name_zh REGEXP #{name} ORDER BY med_name_pinyin")
     List<Med> findByNameContaining(String name);
+    @Select("SELECT * FROM med_yaodian WHERE med_name_zh=#{name}")
     Med findByName(String name);
+    @Select("SELECT * FROM med_yaodian WHERE id=${id}")
     Med findById(Integer id);
 }

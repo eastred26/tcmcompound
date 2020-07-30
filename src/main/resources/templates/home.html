@@ -65,6 +65,12 @@
                     <h5>化合物结构类型</h5>
                 </a>
             </li>
+            <li class="nav-item col-md-3">
+                <a class="nav-link" id="prescription-tab" data-toggle="tab" href="#prescription-panel" role="tab"
+                   aria-selected="false">
+                    <h5>处方</h5>
+                </a>
+            </li>
         </ul>
     </div>
 
@@ -104,6 +110,8 @@
                 </div>
             </div>
         </div>
+
+
         <div class="tab-pane fade" id="compound-panel" role="tabpanel" aria-labelledby="compound-tab">
             <div th:each="structure : ${structureNameMap}" class="alphabet-med">
                 <p class="alphabet-name" th:text="${structure.key}"></p>
@@ -121,6 +129,25 @@
                 </div>
             </div>
         </div>
+
+        <div class="tab-pane fade" id="prescription-panel" role="tabpanel" aria-labelledby="prescription-tab">
+            <div th:each="prescription : ${prescriptionMap}" class="alphabet-med">
+                <p class="alphabet-name" th:text="${prescription.key}"></p>
+                <ul class="row">
+                    <li th:each="prescriptionItem : ${prescription.value}" th:if="${prescriptionItemStat.index<6}" class="col-md-2">
+                        <a class="med-name"  th:text="${prescriptionItem.value}" th:href="'./prescription/'+${prescriptionItem.key}"></a>
+                    </li></ul>
+                <a th:if="${prescription.value.size()>6}" data-toggle="collapse" data-parent="#origin-panel"
+                   th:href="'#collapse'+'_prescription_'+${prescriptionStat.index}" onclick="changeState(this)" class="toggle-more">更多+</a>
+                <div th:id="'collapse'+'_prescription_'+${prescriptionStat.index}" class="panel-collapse collapse in">
+                    <ul class="row">
+                        <li th:each="prescriptionItem : ${prescription.value}" th:if="${prescriptionItemStat.index>=6}" class="col-md-2">
+                            <a class="med-name"  th:text="${prescriptionItem.value}" th:href="'./prescription/'+${prescriptionItem.key}"></a>
+                        </li></ul>
+                </div>
+            </div>
+        </div>
+
     </div>
     <!--提示框-->
     <div id="tip-modal"class="modal" tabindex="-1" role="dialog">

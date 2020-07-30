@@ -9,28 +9,25 @@ import com.tcm.tcmcompound.pojo.MedOriginRelate;
 import com.tcm.tcmcompound.service.MedOriginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-@Repository
+@Service
 public class MedOriginServiceImpl implements MedOriginService {
-    private final MedOriginDao medOriginDao;
-    private final MedOriginRelateDao medOriginRelateDao;
-    private final MedOriginCompoundRelateDao medOriginCompoundRelateDao;
-
     @Autowired
-    public MedOriginServiceImpl(MedOriginDao medOriginDao, MedOriginRelateDao medOriginRelateDao, MedOriginCompoundRelateDao medOriginCompoundRelateDao) {
-        this.medOriginDao = medOriginDao;
-        this.medOriginRelateDao = medOriginRelateDao;
-        this.medOriginCompoundRelateDao = medOriginCompoundRelateDao;
-    }
+    private  MedOriginDao medOriginDao;
+    @Autowired
+    private  MedOriginRelateDao medOriginRelateDao;
+    @Autowired
+    private  MedOriginCompoundRelateDao medOriginCompoundRelateDao;
 
     @Override
     public Map<Integer, String> getAllName(String alphabet) {
-        String str = alphabet + '%';
+        String str = "^"+alphabet;
         List<MedOrigin> medOriginList = medOriginDao.findByPinyinLikeOrderByPinyin(str);
         Map<Integer, String> allName = new LinkedHashMap<>();
         for(MedOrigin item:medOriginList) {
@@ -64,7 +61,7 @@ public class MedOriginServiceImpl implements MedOriginService {
         List<MedOriginRelate> listMedOriginRelate = medOriginRelateDao.findByOriginNameZh(name);
         List<String> allName = new ArrayList<>();
         for (MedOriginRelate item:listMedOriginRelate) {
-            allName.add(item.getMedicineName());
+            allName.add(item.getMedicine_name());
         }
         return allName;
     }
@@ -74,7 +71,7 @@ public class MedOriginServiceImpl implements MedOriginService {
         List<MedOriginRelate> listMedOriginRelate = medOriginRelateDao.findById(id);
         Map<Integer, String> allName = new LinkedHashMap<>();
         for (MedOriginRelate item:listMedOriginRelate) {
-            allName.put(item.getMedicineId(), item.getMedicineName());
+            allName.put(item.getMedicine_id(), item.getMedicine_name());
         }
         return allName;
     }

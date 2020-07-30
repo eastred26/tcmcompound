@@ -3,6 +3,7 @@ package com.tcm.tcmcompound.web.controller;
 import com.tcm.tcmcompound.service.CompoundService;
 import com.tcm.tcmcompound.service.MedOriginService;
 import com.tcm.tcmcompound.service.MedService;
+import com.tcm.tcmcompound.service.PrescriptionService;
 import com.tcm.tcmcompound.utils.ChineseCharacterUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,16 +14,15 @@ import java.util.*;
 
 @Controller
 public class HomeController {
-    private final MedService medService;
-    private final MedOriginService medOriginService;
-    private final CompoundService compoundService;
-
     @Autowired
-    public HomeController(MedService medService, MedOriginService medOriginService, CompoundService compoundService) {
-        this.medService = medService;
-        this.medOriginService = medOriginService;
-        this.compoundService = compoundService;
-    }
+    private  MedService medService;
+    @Autowired
+    private  MedOriginService medOriginService;
+    @Autowired
+    private  CompoundService compoundService;
+    @Autowired
+    private PrescriptionService prescriptionService;
+
     @RequestMapping("/")
     String root() {
         return "redirect:/home";
@@ -32,8 +32,10 @@ public class HomeController {
     String home(Model model){
         Map<String, Map<Integer, String>> medMap = new LinkedHashMap<>();
         Map<String, Map<Integer, String>> medOriginMap = new LinkedHashMap<>();
+        Map<String, Map<Integer, String>> prescriptionMap = new LinkedHashMap<>();
         Map<Integer, String> medNameMap;
         Map<Integer, String> originNameMap;
+        Map<Integer, String> prescriptionNameMap;
         Map<String, List<String>> structureNameMap = new HashMap<>();
         String firstchar;
         for(char a = 'A'; a <= 'Z'; a++){
@@ -44,6 +46,10 @@ public class HomeController {
             originNameMap = medOriginService.getAllName(String.valueOf(a));
             if (!originNameMap.isEmpty()){
                 medOriginMap.put(String.valueOf(a), originNameMap);
+            }
+            prescriptionNameMap=prescriptionService.getAllName(String.valueOf(a));
+            if(!prescriptionNameMap.isEmpty()){
+                prescriptionMap.put(String.valueOf(a),prescriptionNameMap);
             }
         }
         List<String> structureName = compoundService.getAllStructureName();
@@ -59,6 +65,7 @@ public class HomeController {
         }
         model.addAttribute("medMap",medMap);
         model.addAttribute("medOriginMap",medOriginMap);
+        model.addAttribute("prescriptionMap",prescriptionMap);
         model.addAttribute("structureNameMap", structureNameMap);
         return "home";
     }

@@ -10,18 +10,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class MedicineController {
-    private final MedService medService;
-
     @Autowired
-    public MedicineController(MedService medService) {
-        this.medService = medService;
-    }
+    private MedService medService;
+
 
     @RequestMapping("/medicine/{id}")
     String home(Model model, @PathVariable int id) {
         Med med = medService.getById(id);
-        model.addAttribute("name", med.getName());
-        model.addAttribute("latin_name", med.getLatin_name());
+        model.addAttribute("name", med.getMed_name_zh());
+        model.addAttribute("latin_name", med.getMed_name_latin());
         model.addAttribute("med_function", med.getMed_function());
         model.addAttribute("med_property", med.getMed_property());
         model.addAttribute("med_tropisw", med.getMed_tropisw());

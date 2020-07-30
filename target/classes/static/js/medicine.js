@@ -30,11 +30,11 @@ function search() {
                 if(data.length!==0){
                     var id = 0;
                     data.forEach(function (value) {
-                        if(value['originName']!==null){
-                            value['originlink'] = '<a href=\"../origin/' +value['originId'] + '" target="_blank">'+ value['originName']+ '</a>';
+                        if(value['origin_name']!==null){
+                            value['originlink'] = '<a href=\"../origin/' +value['origin_id'] + '" target="_blank">'+ value['origin_name']+ '</a>';
                         }
-                        if(value['compoundName']!=null){
-                            value['compoundlink'] = '<a href=\"../compound/' +value['compoundId'] + '" target="_blank">'+ value['compoundName']+ '</a>';
+                        if(value['compound_name']!=null){
+                            value['compoundlink'] = '<a href=\"../compound/' +value['compound_id'] + '" target="_blank">'+ value['compound_name']+ '</a>';
                         }
                         console.log(value);
                         tableData.push(value);
@@ -70,7 +70,7 @@ function showTable(data) {
         {
             data:data,
             columns: [
-                { data: 'medicineName', width: "20%" },
+                { data: 'medicine_name', width: "20%" },
                 { data: 'compoundlink', width: "30%"},
                 { data: 'originlink', width: "20%" },
                 { data: 'formula', width:"15%"},

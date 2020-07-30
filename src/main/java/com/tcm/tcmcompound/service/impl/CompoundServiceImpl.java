@@ -5,7 +5,9 @@ import com.tcm.tcmcompound.dao.MedOriginCompoundRelateDao;
 import com.tcm.tcmcompound.pojo.Compound;
 import com.tcm.tcmcompound.pojo.MedOriginCompoundRelate;
 import com.tcm.tcmcompound.service.CompoundService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -13,16 +15,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@Repository
+@Service
 public class CompoundServiceImpl implements CompoundService {
-    private final CompoundDao compoundDao;
-    private final MedOriginCompoundRelateDao medOriginCompoundRelateDao;
+    @Autowired
+    private  CompoundDao compoundDao;
+    @Autowired
+    private  MedOriginCompoundRelateDao medOriginCompoundRelateDao;
 
-
-    public CompoundServiceImpl(CompoundDao compoundDao, MedOriginCompoundRelateDao medOriginCompoundRelateDao) {
-        this.compoundDao = compoundDao;
-        this.medOriginCompoundRelateDao = medOriginCompoundRelateDao;
-    }
 
     @Override
     public List<Compound> getAll() {
@@ -44,7 +43,7 @@ public class CompoundServiceImpl implements CompoundService {
         List<MedOriginCompoundRelate> listMedOriginCompoundRelate = medOriginCompoundRelateDao.findByCompoundName(compoundName);
         List<String> allName = new ArrayList<>();
         for (MedOriginCompoundRelate item:listMedOriginCompoundRelate) {
-            allName.add(item.getMedicineName());
+            allName.add(item.getMedicine_name());
         }
         List newList = allName.stream().distinct().collect(Collectors.toList());
         return newList;
@@ -55,7 +54,7 @@ public class CompoundServiceImpl implements CompoundService {
         List<MedOriginCompoundRelate> listMedOriginCompoundRelate = medOriginCompoundRelateDao.findByCompoundName(compoundName);
         List<String> allName = new ArrayList<>();
         for (MedOriginCompoundRelate item:listMedOriginCompoundRelate) {
-            allName.add(item.getOriginName());
+            allName.add(item.getOrigin_name());
         }
         List newList = allName.stream().distinct().collect(Collectors.toList());
         return newList;
@@ -66,7 +65,7 @@ public class CompoundServiceImpl implements CompoundService {
         List<MedOriginCompoundRelate> listMedOriginCompoundRelate = medOriginCompoundRelateDao.findByCompoundId(id);
         Map<Integer, String> allMeds = new LinkedHashMap<>();
         for (MedOriginCompoundRelate item : listMedOriginCompoundRelate) {
-            allMeds.put(item.getMedicineId(), item.getMedicineName());
+            allMeds.put(item.getMedicine_id(), item.getMedicine_name());
         }
         return allMeds;
     }
@@ -76,7 +75,7 @@ public class CompoundServiceImpl implements CompoundService {
         List<MedOriginCompoundRelate> listMedOriginCompoundRelate = medOriginCompoundRelateDao.findByCompoundId(id);
         Map<Integer, String> allMeds = new LinkedHashMap<>();
         for (MedOriginCompoundRelate item:listMedOriginCompoundRelate) {
-            allMeds.put(item.getOriginId(), item.getOriginName());
+            allMeds.put(item.getOrigin_id(), item.getOrigin_name());
         }
         return  allMeds;
     }

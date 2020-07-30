@@ -12,17 +12,13 @@ import javax.swing.plaf.basic.ComboPopup;
 
 @Controller
 public class CompoundController {
-    private final CompoundService compoundService;
-
     @Autowired
-    public CompoundController(CompoundService compoundService) {
-        this.compoundService = compoundService;
-    }
+    private CompoundService compoundService;
 
     @RequestMapping("/compound/{id}")
     String home(Model model, @PathVariable Integer id) {
         Compound compound = compoundService.getById(id);
-        model.addAttribute("name", compound.getCompoundName());
+        model.addAttribute("name", compound.getCompound_name());
         model.addAttribute("synonym", compound.getSynonym());
         model.addAttribute("CAS", compound.getCAS());
         model.addAttribute("compound_id", compound.getCompound_id());

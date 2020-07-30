@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>PrescriptionGraph</title>
+    <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
+    <script src="https://www.w3school.com.cn/jquery/jquery.js"></script>
+    <style type="text/css">
+        #mynetwork {
+            width: 600px;
+            height: 400px;
+            border: 1px solid lightgray;
+        }
+    </style>
+</head>
+<body>
+<div id="mynetwork" style="width:50%;float:left; border:2.5px solid #d3d3d3;"> </div>
+<div id="bar"  style="height:100%;width:49%;float:left; border:2.5px solid #d3d3d3;overflow:scroll;position:fixed;right:1px;">
+    <p id="eventSpan">
+    </p>
+</div>
+<script type="text/javascript">
+    // create an array with nodes
+    let id = [[${PID}]];
+    var edges;
+    var nodes;
+    var network;
+    $.ajax({
+        type: "GET",
+        url: "/tcmcompound/prescription/graph",
+        data: {"PID":id},
+        datatype: "json",
+        error: function(error) {
+            console.log(error.toString());
+        },
+        success: function(data){
+            console.log(data);
+            edges=new vis.DataSet(data.edges);
+            nodes=new vis.DataSet(data.nodes);
+            var container = document.getElementById('mynetwork');
+            var data = {
+                nodes: nodes,
+                edges: edges
+            };
+            var screen_height=(window.screen.availHeight)-60;
+
+            $("#mynetwork").css({'height':screen_height});
+            var options = {
+
+                edges:
+                    {
+
+                        color: {
+                            color:'#97C2FC',
+                            highlight:'#f403f4',
+                            hover: 'green',
+
+                            opacity:1.0
+                        },
+                    },
+
+                nodes:
+                    {
+                        shape:'dot',
+                        size:15,
+                        color: {
+                            border: '#2B7CE9',
+                            background: '#97C2FC',
+                            highlight: {
+                                border: '#2B7CE9',
+                                background: '#f403f4'
+                            },
+                            hover: {
+                                border: '#2B7CE9',
+                                background: '#f403f4'
+                            }
+                        },
+
+                    },
+
+
+                groups:{
+                    p:{color:{background:'red'}, borderWidth:1,shape:'triangle'},
+                    i:{color:{background:'blue'}, borderWidth:1,shape:'dot'},
+                    d:{color:{background:'yellow'}, borderWidth:1,shape:'square'},
+                    h:{color:{background:'green'}, borderWidth:1,shape:'star'},
+
+                },
+                layout: {
+                    improvedLayout: false,
+                    randomSeed: 191006
+                },
+                interaction:
+                    {
+                        navigationButtons: true,
+                        keyboard: true,
+                        hover:true,
+                    },
+                manipulation: {
+                    enabled: true
+                }
+
+            };
+            network = new vis.Network(container, data, options);
+            network.on("click", function (params) {
+                var nodeID=params.nodes[0];
+                if(nodeID.charAt(0)=='h'){
+                    var findNode=nodes.get(nodeID);
+                    console.log(findNode);
+                    var flag=findNode.fold;
+                    if(flag==true){
+                        nodes.update({id:nodeID,fold:false});
+                        addIngredient(nodeID);
+                    }
+                    else{
+                        nodes.update({id:nodeID,fold:true});
+                        removeIngredient(nodeID);
+                    }
+
+                }
+            });
+        }});
+    //根据herbid来往图中添加草药
+    function addIngredient(hidName) {
+        $.ajax({
+            type: "GET",
+            url: "/tcmcompound/herb/graph",
+            data: {"hidName":hidName},
+            datatype: "json",
+            error: function(error) {
+                console.log(error.toString());
+            },
+            success: function(data){
+                console.log(data);
+                var newNodes=data.nodes;
+                var len=newNodes.length;
+                for(var i=0;i<len;i++){
+                    nodes.add(newNodes[i]);
+                }
+                var newEdges=data.edges;
+                len=newEdges.length;
+                for(var i=0;i<len;i++){
+                    edges.add(newEdges[i]);
+                }
+                var data = {
+                    nodes: nodes,
+                    edges: edges
+                };
+
+                network.setData(data);
+            }});
+    }
+    function removeIngredient(hidName) {
+        $.ajax({
+            type: "GET",
+            url: "/tcmcompound/herb/graph",
+            data: {"hidName":hidName},
+            datatype: "json",
+            error: function(error) {
+                console.log(error.toString());
+            },
+            success: function(data){
+                console.log(data);
+                var newNodes=data.nodes;
+                var len=newNodes.length;
+                for(var i=0;i<len;i++){
+                    nodes.remove({id:newNodes[i].id});
+                    edges.remove({id:"hi"+newNodes[i].id+hidName});
+                }
+                var data = {
+                    nodes: nodes,
+                    edges: edges
+                };
+
+                network.setData(data);
+            }});
+
+    }
+</script>
+</body>
+</html>

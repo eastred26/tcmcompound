@@ -11,12 +11,8 @@ import java.lang.*;
 
 @Controller
 public class OriginController {
-    private final MedOriginService medOriginService;
-
     @Autowired
-    public OriginController(MedOriginService medOriginService){
-        this.medOriginService = medOriginService;
-    }
+    private MedOriginService medOriginService;
 
     @RequestMapping("/origin/{id}")
     String home(Model model, @PathVariable Integer id) {
