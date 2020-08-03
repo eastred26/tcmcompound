@@ -105,6 +105,14 @@
                 <div class="content-title" style="width:155px;float:left;text-align:left;display: inline-block;margin-top: 20px;">总平方原子电荷</div>
                 <span class="no-pic" style="margin-top: 20px;margin-left: 20px;display: inline-block;width: 250px;"  th:text="${squared_atomic_charge}">0.47</span>
             </div>
+            <div class="col-md-12" th:if="${SMILE}!=null">
+                <div class="content-title" style="width:155px;float:left;text-align:left;display: inline-block;margin-top: 20px;">SMILE结构</div>
+                <span class="no-pic" style="margin-top: 20px;margin-left: 20px;display: inline-block;width: 250px;"  th:text="${SMILE}">0.47</span>
+            </div>
+            <div class="col-md-12" th:if="${Pubchem_ID}!=null">
+                <div class="content-title" style="width:235px;float:left;text-align:left;display: inline-block;margin-top: 20px;">去Pubchem官网查看更多</div>
+                <a class="no-pic" style="margin-top: 20px;margin-left: 20px;display: inline-block;width: 250px;"  th:text="${Pubchem_ID}" th:href="'https://pubchem.ncbi.nlm.nih.gov/compound/'+${Pubchem_ID}">0.47</a>
+            </div>
         </div>
     </div>
     <div id="compound_id" th:text="${compound_id}" style="display:none;"></div>
@@ -151,6 +159,21 @@
             </ul>
         </div>
     </div>
+
+    <div class="basic-content">
+        <div class="new-title">
+            <span class="title-icon"></span>
+            <span class="title-name">相关蛋白质靶点</span>
+        </div>
+        <div class="origin-list">
+            <ul class="row">
+                <li th:each="target : ${targets}" style="width:800px">
+                    <a th:text="${target.value}" th:href="'../target/'+${target.key}"></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
 </div>
 <div th:replace="fragments/footer :: footer">footer</div>
 <script th:src="@{/js/jquery-3.2.1/jquery.min.js}" type="text/javascript"></script>

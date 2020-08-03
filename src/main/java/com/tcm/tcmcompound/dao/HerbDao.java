@@ -7,6 +7,8 @@ import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public interface HerbDao {
     @Select("SELECT pinyin_name,chinese_name,latin_name FROM herb WHERE ID=#{id}")
@@ -21,4 +23,10 @@ public interface HerbDao {
     String getIngredients(Integer id);
     @Select("SELECT * FROM herb WHERE ID=${id}")
     Herb findById(Integer id);
+    @Select("SELECT pinyin_name FROM herb WHERE ID=${id}")
+    String findPinyinById(Integer id);
+    @Select("SELECT Med_ID FROM herb_med WHERE Herb_ID=${id}")
+    Integer findMedById(Integer id);
+    @Select("SELECT Prescription_ID FROM prescription_herb2 WHERE Herb_ID=${id}")
+    List<Integer> findPrescriptionById(Integer id);
 }

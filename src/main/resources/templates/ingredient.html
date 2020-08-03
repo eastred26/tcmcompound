@@ -8,7 +8,7 @@
     <link th:href="@{/css/search_area.css}" rel="stylesheet">
     <link th:href="@{/datatable/jquery.dataTables.css}" rel="stylesheet">
     <link th:href="@{/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
-    <link th:href="@{/css/medicine.css}" rel="stylesheet">
+    <link th:href="@{/css/ingredient.css}" rel="stylesheet">
     <title>中药成分结构数据专题-化合物</title>
 </head>
 <body th:style="'background:url('+@{/images/backperson1.png}+') right bottom no-repeat fixed,url('+@{/images/backperson2.png}+') left bottom no-repeat fixed;background-size: 450px;background-color: #f5f5f5;'">
@@ -45,9 +45,22 @@
                 <span class="no-pic" th:text="${SMILE}"></span>
             </div>
         </div>
-        <a th:if="${tcm_id} != null" class="tcm-link" target="_blank" th:href="'http://zcy.ckcest.cn/tcm/search/med?medname='+${tcm_name}+'&medid='+${tcm_id}">
+        <a th:if="${compound} != null" class="tcm-link" target="_blank" th:href="'/tcmcompound/compound/'+${compound}">
             —>更多
         </a>
+    </div>
+    <div class="basic-content">
+        <div class="new-title">
+            <span class="title-icon"></span>
+            <span class="title-name">相关蛋白质靶点</span>
+        </div>
+        <div class="origin-list">
+            <ul class="row">
+                <li th:each="target : ${targets}" >
+                    <a th:text="${target.value}" th:href="'../target/'+${target.key}"></a>
+                </li>
+            </ul>
+        </div>
     </div>
 
 </div>

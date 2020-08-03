@@ -53,6 +53,9 @@
         <a th:if="${tcm_id} != null" class="tcm-link" target="_blank" th:href="'http://zcy.ckcest.cn/tcm/search/med?medname='+${tcm_name}+'&medid='+${tcm_id}">
             —>更多
         </a>
+        <a th:if="${herb} != null" class="tcm-link" target="_blank" th:href="'../herb/'+${herb}">
+            英文介绍
+        </a>
     </div>
     <div class="basic-content">
         <div class="new-title">

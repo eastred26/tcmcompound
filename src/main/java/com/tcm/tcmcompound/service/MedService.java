@@ -18,5 +18,6 @@ public interface MedService {
     Map<Integer, String> getOriginById(Integer id);
     List<MedOriginCompoundRelate> getRelateByMed(String name);
     List<MedOriginCompoundRelate> getRelateByMedId(Integer id);
-
+    String getPinyinById(Integer id);
+    Integer getHerbById(Integer id);
 }

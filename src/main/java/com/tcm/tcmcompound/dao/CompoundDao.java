@@ -18,4 +18,6 @@ public interface CompoundDao{
     Compound findById(Integer id);
     @Select("select distinct structure from compound where structure != '' ORDER BY CONVERT(structure using gbk)")
     List<String> findAllStructureName();
+    @Select("SELECT Pubchem_ID FROM cas_pubchem WHERE Compound_ID=#{id}")
+    String findPubchemById(Integer id);
 }

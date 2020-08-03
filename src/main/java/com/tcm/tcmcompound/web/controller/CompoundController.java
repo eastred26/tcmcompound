@@ -1,7 +1,10 @@
 package com.tcm.tcmcompound.web.controller;
 
+import com.tcm.tcmcompound.dao.IngredientDao;
 import com.tcm.tcmcompound.pojo.Compound;
+import com.tcm.tcmcompound.pojo.Ingredient;
 import com.tcm.tcmcompound.service.CompoundService;
+import com.tcm.tcmcompound.service.IngredientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,10 +17,20 @@ import javax.swing.plaf.basic.ComboPopup;
 public class CompoundController {
     @Autowired
     private CompoundService compoundService;
+    @Autowired
+    private IngredientService ingredientService;
 
     @RequestMapping("/compound/{id}")
     String home(Model model, @PathVariable Integer id) {
         Compound compound = compoundService.getById(id);
+        String ingredient_id_s=compoundService.getIngredient(id);
+        if(ingredient_id_s!=null){
+            int ingredient_id=Integer.parseInt(ingredient_id_s);
+            Ingredient ingredient = ingredientService.getIngredientById(ingredient_id);
+            model.addAttribute("Pubchem_ID",ingredient.getPubChem_ID());
+            model.addAttribute("SMILE", ingredient.getSMILE());
+            model.addAttribute("targets",ingredientService.getTargetsByName(ingredient.getName()));
+        }
         model.addAttribute("name", compound.getCompound_name());
         model.addAttribute("synonym", compound.getSynonym());
         model.addAttribute("CAS", compound.getCAS());
@@ -41,6 +54,7 @@ public class CompoundController {
         model.addAttribute("squared_atomic_charge", compound.getSquared_atomic_charge());
         model.addAttribute("meds", compoundService.getMedsById(id));
         model.addAttribute("origins", compoundService.getOriginsById(id));
+        model.addAttribute("ingredient",ingredient_id_s);
         return "compound";
     }
 }

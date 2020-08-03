@@ -22,7 +22,14 @@ public class MedServiceImpl implements MedService {
     @Autowired
     private  MedOriginCompoundRelateDao medOriginCompoundRelateDao;
 
-
+    @Override
+    public String getPinyinById(Integer id){
+        return medDao.findPinyinById(id);
+    }
+    @Override
+    public Integer getHerbById(Integer id){
+        return medDao.findHerbById(id);
+    }
     @Override
     public List<String> getAllName(){
         List<Med> listMed = medDao.findAll();

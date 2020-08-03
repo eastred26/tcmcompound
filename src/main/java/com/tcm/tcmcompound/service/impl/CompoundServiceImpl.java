@@ -1,6 +1,7 @@
 package com.tcm.tcmcompound.service.impl;
 
 import com.tcm.tcmcompound.dao.CompoundDao;
+import com.tcm.tcmcompound.dao.IngredientDao;
 import com.tcm.tcmcompound.dao.MedOriginCompoundRelateDao;
 import com.tcm.tcmcompound.pojo.Compound;
 import com.tcm.tcmcompound.pojo.MedOriginCompoundRelate;
@@ -19,6 +20,8 @@ import java.util.stream.Collectors;
 public class CompoundServiceImpl implements CompoundService {
     @Autowired
     private  CompoundDao compoundDao;
+    @Autowired
+    private IngredientDao ingredientDao;
     @Autowired
     private  MedOriginCompoundRelateDao medOriginCompoundRelateDao;
 
@@ -83,5 +86,13 @@ public class CompoundServiceImpl implements CompoundService {
     @Override
     public List<String> getAllStructureName(){
         return compoundDao.findAllStructureName();
+    }
+
+    @Override
+    public String getIngredient(Integer id){
+        String pubchem_id=compoundDao.findPubchemById(id);
+        if(pubchem_id==null)return null;
+        String iid=ingredientDao.getIdBypubchem(pubchem_id);
+        return iid;
     }
 }

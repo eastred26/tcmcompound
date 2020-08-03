@@ -16,6 +16,6 @@ public interface MedOriginRelateDao  {
     List<MedOriginRelate> findByMedicineId(Integer medicineId);
     @Select("SELECT * FROM medicine_origin_map WHERE origin_name_zh=#{name}")
     List<MedOriginRelate> findByOriginNameZh(String name);
-    @Select("SELECT * FROM medicine_origin_map WHERE id=${id}")
+    @Select("SELECT * FROM medicine_origin_map WHERE origin_id=${id}")
     List<MedOriginRelate> findById(Integer id);
 }

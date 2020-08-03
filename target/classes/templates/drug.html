@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="utf-8">
+<head>
+    <meta content="text/html;charset=UTF-8"/>
+    <meta http-equiv="x-ua-compatible" content="IE=edge"/>
+    <meta name="viewpoint" content="width=device-width, initial-scale=1"/>
+    <link th:href="@{/favicon.ico}" rel="icon" type="image/x-icon">
+    <link th:href="@{/css/search_area.css}" rel="stylesheet">
+    <link th:href="@{/datatable/jquery.dataTables.css}" rel="stylesheet">
+    <link th:href="@{/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/css/ingredient.css}" rel="stylesheet">
+    <title>中药成分结构数据专题-西药</title>
+</head>
+<body th:style="'background:url('+@{/images/backperson1.png}+') right bottom no-repeat fixed,url('+@{/images/backperson2.png}+') left bottom no-repeat fixed;background-size: 450px;background-color: #f5f5f5;'">
+<div th:fragment="navbar" class="wrapper" role="navigation">
+    <div th:replace="fragments/header :: header">Header</div>
+</div>
+<div class="content-container">
+    <div class="sub-nav">
+        当前位置：<a href="http://zcy.ckcest.cn/tcm/"> 首页 </a>> <a href="../home">中药成分结构数据专题</a>
+        &gt;西药
+    </div>
+    <div class="detail-head" id="tcm_detail_head" th:text="'西药：'+${name}">
+    </div>
+    <div class="basic-content">
+        <div class="new-title">
+            <span class="title-icon"></span>
+            <span class="title-name">基本信息</span>
+        </div>
+        <div class="basic-info-box">
+            <div class="box-content">
+                <div class="content-title">名&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;称</div>
+                <span class="no-pic" id="chinese_name" th:text="${name}"></span>
+            </div>
+            <div class="box-content">
+                <div class="content-title">DrugBank No</div>
+                <span class="no-pic"  ><a th:href="'https://www.drugbank.ca/drugs/'+${drugbank}" th:text="${drugbank}"></a></span>
+            </div>
+            <div class="box-content">
+                <div class="content-title">类&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;型</div>
+                <span class="no-pic" id="type_name" th:text="${type}"></span>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+<div th:replace="fragments/footer :: footer">footer</div>
+<script th:src="@{/js/jquery-3.2.1/jquery.min.js}" type="text/javascript"></script>
+<script th:src="@{/datatable/jquery.dataTables.js}" type="text/javascript"></script>
+</body>
+</html>

@@ -1,11 +1,10 @@
 package com.tcm.tcmcompound.service.impl;
 
-import com.tcm.tcmcompound.dao.MedOriginCompoundRelateDao;
-import com.tcm.tcmcompound.dao.MedOriginDao;
-import com.tcm.tcmcompound.dao.MedOriginRelateDao;
+import com.tcm.tcmcompound.dao.*;
 import com.tcm.tcmcompound.pojo.MedOrigin;
 import com.tcm.tcmcompound.pojo.MedOriginCompoundRelate;
 import com.tcm.tcmcompound.pojo.MedOriginRelate;
+import com.tcm.tcmcompound.service.CompoundService;
 import com.tcm.tcmcompound.service.MedOriginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -20,10 +19,17 @@ import java.util.Map;
 public class MedOriginServiceImpl implements MedOriginService {
     @Autowired
     private  MedOriginDao medOriginDao;
+
+    @Autowired
+    private MedDao medDao;
+    @Autowired
+    private CompoundService compoundService;
     @Autowired
     private  MedOriginRelateDao medOriginRelateDao;
     @Autowired
     private  MedOriginCompoundRelateDao medOriginCompoundRelateDao;
+    @Autowired
+    private IngredientDao ingredientDao;
 
     @Override
     public Map<Integer, String> getAllName(String alphabet) {
@@ -67,6 +73,22 @@ public class MedOriginServiceImpl implements MedOriginService {
     }
 
     @Override
+    public Map<Integer, String> getGraphMedById(Integer id){
+        List<MedOriginRelate> listMedOriginRelate = medOriginRelateDao.findById(id);
+        Map<Integer, String> allName = new LinkedHashMap<>();
+        for (MedOriginRelate item:listMedOriginRelate) {
+            int mid=item.getMedicine_id();
+            Integer hid=medDao.findHerbById(mid);
+            if(hid!=null){
+                allName.put(hid.intValue(), item.getMedicine_name());
+            }
+            else
+            allName.put(-mid, item.getMedicine_name());
+        }
+        return allName;
+    }
+
+    @Override
     public Map<Integer, String> getMedById(Integer id){
         List<MedOriginRelate> listMedOriginRelate = medOriginRelateDao.findById(id);
         Map<Integer, String> allName = new LinkedHashMap<>();
@@ -84,5 +106,24 @@ public class MedOriginServiceImpl implements MedOriginService {
     @Override
     public List<MedOriginCompoundRelate> getRelateByOriginId(Integer id){
         return new ArrayList<>(medOriginCompoundRelateDao.findByOriginId(id));
+    }
+    @Override
+    public String getNameById(Integer id){
+        return medOriginDao.findNameById(id);
+    }
+    @Override
+    public Map<Integer, String> getCompoundById(Integer id){
+        List<MedOriginCompoundRelate> listMedOriginCompoundRelate=medOriginCompoundRelateDao.findByOriginId(id);
+        Map<Integer, String> allName = new LinkedHashMap<>();
+        for (MedOriginCompoundRelate item:listMedOriginCompoundRelate) {
+            int cid=item.getCompound_id();
+            String iid_s=compoundService.getIngredient(cid);
+            if(iid_s==null)allName.put(-cid, item.getCompound_name());
+            else {
+                int iid=Integer.parseInt(iid_s);
+                allName.put(iid,ingredientDao.getIngredientName(iid));
+            }
+        }
+        return allName;
     }
 }

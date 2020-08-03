@@ -9,4 +9,7 @@ public interface HerbService {
     public String getIngredientsbyId(int id);
     public Map<Integer, String> getIngredientById(Integer id);
     public Herb getById(int id);
+    public String getPinyinById(int id);
+    Integer getMedById(Integer id);
+    Map<Integer, String> findPrescriptionById(Integer id);
 }

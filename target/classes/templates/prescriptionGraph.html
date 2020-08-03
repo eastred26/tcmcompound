@@ -2,8 +2,8 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>PrescriptionGraph</title>
-    <script type="text/javascript" src="https://unpkg.com/vis-network/standalone/umd/vis-network.min.js"></script>
-    <script src="https://www.w3school.com.cn/jquery/jquery.js"></script>
+    <script th:src="@{/js/vis-network.min.js}" type="text/javascript"></script>
+    <script th:src="@{/js/jquery-3.2.1/jquery.min.js}" type="text/javascript"></script>
     <style type="text/css">
         #mynetwork {
             width: 600px;
@@ -15,7 +15,10 @@
 <body>
 <div id="mynetwork" style="width:50%;float:left; border:2.5px solid #d3d3d3;"> </div>
 <div id="bar"  style="height:100%;width:49%;float:left; border:2.5px solid #d3d3d3;overflow:scroll;position:fixed;right:1px;">
+    <img src="../../images/example.png"/>
     <p id="eventSpan">
+    </p>
+    <p id="numSpan">
     </p>
 </div>
 <script type="text/javascript">
@@ -24,9 +27,10 @@
     var edges;
     var nodes;
     var network;
+    var NodeNum=0;
     $.ajax({
         type: "GET",
-        url: "/tcmcompound/prescription/graph",
+        url: "/tcmcompound/prescription/graph_init",
         data: {"PID":id},
         datatype: "json",
         error: function(error) {
@@ -80,14 +84,15 @@
 
                 groups:{
                     p:{color:{background:'red'}, borderWidth:1,shape:'triangle'},
+                    o:{color:{background:'#39C5BB'}, borderWidth:1,shape:'triangle'},
                     i:{color:{background:'blue'}, borderWidth:1,shape:'dot'},
-                    d:{color:{background:'yellow'}, borderWidth:1,shape:'square'},
+                    t:{color:{background:'yellow'}, borderWidth:1,shape:'square'},
                     h:{color:{background:'green'}, borderWidth:1,shape:'star'},
-
+                    drug:{color:{background:'#FB7E81'}, borderWidth:1,shape:'diamond'},
+                    disease:{color:{background:'#C2FABC'}, borderWidth:1,shape:'diamond'}
                 },
                 layout: {
                     improvedLayout: false,
-                    randomSeed: 191006
                 },
                 interaction:
                     {
@@ -103,34 +108,70 @@
             network = new vis.Network(container, data, options);
             network.on("click", function (params) {
                 var nodeID=params.nodes[0];
-                if(nodeID.charAt(0)=='h'){
-                    var findNode=nodes.get(nodeID);
-                    console.log(findNode);
-                    var flag=findNode.fold;
-                    if(flag==true){
-                        nodes.update({id:nodeID,fold:false});
-                        addIngredient(nodeID);
-                    }
-                    else{
-                        nodes.update({id:nodeID,fold:true});
-                        removeIngredient(nodeID);
-                    }
-
+                if(nodeID==undefined)return;
+                var real_id=nodeID.split("_")[1];
+                var findNode=nodes.get(nodeID);
+                var group=findNode.group;
+                var flag=findNode.fold;
+                var s="";
+                if(group=="h")s="/tcmcompound/herb/"+real_id;
+                else if(group=="p")s="/tcmcompound/prescription/"+real_id;
+                else if(group=="o")s="/tcmcompound/origin/"+real_id;
+                else if(group=="i")s="/tcmcompound/ingredient/"+real_id;
+                else if(group=="t")s="/tcmcompound/target/"+real_id;
+                else if(group=="disease")s="/tcmcompound/disease/"+real_id;
+                else if(group=="drug")s="/tcmcompound/drug/"+real_id;
+                document.getElementById("eventSpan").innerHTML="条目链接:  <a href='"+s+"'>"+findNode.label+"</a>";
+                document.getElementById("numSpan").innerText="";
+                var url_s="";
+                var edge_group="";
+                if(group=="p"){
+                    edge_group="ph";
+                    url_s="/tcmcompound/prescription/graph";
+                }
+                else if(group=="h"){
+                    edge_group="hi";
+                    url_s="/tcmcompound/herb/graph_oi";
+                }
+                else if(group=="i"){
+                    edge_group="it";
+                    url_s="/tcmcompound/ingredient/graph";
+                }
+                else if(group=="t"){
+                    edge_group="td";
+                    url_s="/tcmcompound/target/graph";
+                }
+                else if(group=="o"){
+                    edge_group="oi";
+                    url_s="/tcmcompound/origin/graph_hi";
+                }
+                else return;
+                if(flag==true){
+                    addNodes(nodeID,url_s);
+                    nodes.update({id:nodeID,fold:false});
+                }
+                else{
+                    removeNodes(nodeID,url_s,edge_group);
+                    nodes.update({id:nodeID,fold:true});
                 }
             });
         }});
-    //根据herbid来往图中添加草药
-    function addIngredient(hidName) {
+    function addNodes(idName,url_s) {
         $.ajax({
             type: "GET",
-            url: "/tcmcompound/herb/graph",
-            data: {"hidName":hidName},
+            url: url_s,
+            data: {"idName":idName},
             datatype: "json",
             error: function(error) {
                 console.log(error.toString());
             },
             success: function(data){
                 console.log(data);
+                NodeNum=data.NodeNum;
+                document.getElementById("numSpan").innerText="有"+NodeNum+"个子项。当子项超过120时,会无法展开";
+                if(NodeNum>=120){
+                    return;
+                }
                 var newNodes=data.nodes;
                 var len=newNodes.length;
                 for(var i=0;i<len;i++){
@@ -149,22 +190,57 @@
                 network.setData(data);
             }});
     }
-    function removeIngredient(hidName) {
+    function removeNodes(idName,url_s,edge_group) {
         $.ajax({
             type: "GET",
-            url: "/tcmcompound/herb/graph",
-            data: {"hidName":hidName},
+            url: url_s,
+            data: {"idName":idName},
             datatype: "json",
             error: function(error) {
                 console.log(error.toString());
             },
             success: function(data){
                 console.log(data);
+                NodeNum=data.NodeNum;
+                document.getElementById("numSpan").innerText="有"+NodeNum+"个子项。当子项超过120时,无法展开";
+                if(NodeNum>=120){
+                    return;
+                }
                 var newNodes=data.nodes;
                 var len=newNodes.length;
-                for(var i=0;i<len;i++){
-                    nodes.remove({id:newNodes[i].id});
-                    edges.remove({id:"hi"+newNodes[i].id+hidName});
+                if(edge_group=="ph"){
+                    for(var i=0;i<len;i++){
+                        var newIdName=newNodes[i].id;
+                        var findNode=nodes.get(newIdName);
+                        if(findNode.fold==false)removeNodes(newIdName,"/tcmcompound/herb/graph_oi","hi");
+                        nodes.remove(findNode);
+                        edges.remove({id:edge_group+newNodes[i].id+idName});
+                    }
+                }
+                else if(edge_group=="hi"){
+                    for(var i=0;i<len;i++){
+                        var newIdName=newNodes[i].id;
+                        var findNode=nodes.get(newIdName);
+                        if(findNode.fold==false)removeNodes(newIdName,"/tcmcompound/ingredient/graph","it");
+                        nodes.remove(findNode);
+                        edges.remove({id:idName.charAt(0)+newIdName.charAt(0)+newIdName+idName});
+                    }
+                }
+                else if(edge_group=="it"){
+                    for(var i=0;i<len;i++){
+                        var newIdName=newNodes[i].id;
+                        var findNode=nodes.get(newIdName);
+                        if(findNode.fold==false)removeNodes(newIdName,"/tcmcompound/target/graph","td");
+                        nodes.remove(findNode);
+                        edges.remove({id:edge_group+newNodes[i].id+idName});
+                    }
+                }
+                else{
+                    for(var i=0;i<len;i++){
+                        var findNode=nodes.get(newNodes[i].id);
+                        nodes.remove(findNode);
+                        edges.remove({id:edge_group+newNodes[i].id+idName});
+                    }
                 }
                 var data = {
                     nodes: nodes,
@@ -175,6 +251,7 @@
             }});
 
     }
+
 </script>
 </body>
 </html>

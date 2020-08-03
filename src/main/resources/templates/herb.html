@@ -61,8 +61,8 @@
                 <span class="no-pic" th:text="${effect}"></span>
             </div>
         </div>
-        <a th:if="${tcm_id} != null" class="tcm-link" target="_blank" th:href="'http://zcy.ckcest.cn/tcm/search/med?medname='+${tcm_name}+'&medid='+${tcm_id}">
-            —>更多
+        <a th:if="${medicine} != null" class="tcm-link" target="_blank" th:href="'../medicine/'+${medicine}">
+            中文介绍
         </a>
     </div>
     <div class="basic-content">
@@ -84,8 +84,12 @@
             <span class="title-icon"></span>
             <span class="title-name">关系图展示</span>
         </div>
-        <div class="herb-list">
-
+        <div class="origin-list">
+            <ul class="row">
+                <li  class="col-md-2">
+                    <a th:text="关系图" th:href="'./graph/'+${ID}"></a>
+                </li>
+            </ul>
         </div>
     </div>
 

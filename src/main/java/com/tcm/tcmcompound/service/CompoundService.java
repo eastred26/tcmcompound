@@ -11,6 +11,7 @@ public interface CompoundService {
     Compound getById(Integer id);
     List<String> getMedsByName(String compoundName);
     List<String> getOriginsByName(String compoundName);
+    String getIngredient(Integer id);
     Map<Integer, String> getMedsById(Integer id);
     Map<Integer, String> getOriginsById(Integer id);
     List<String> getAllStructureName();

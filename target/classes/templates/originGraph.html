@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>PrescriptionGraph</title>
+    <script th:src="@{/js/vis-network.min.js}" type="text/javascript"></script>
+    <script th:src="@{/js/jquery-3.2.1/jquery.min.js}" type="text/javascript"></script>
+    <style type="text/css">
+        #mynetwork {
+            width: 600px;
+            height: 400px;
+            border: 1px solid lightgray;
+        }
+    </style>
+</head>
+<body>
+<div id="mynetwork" style="width:50%;float:left; border:2.5px solid #d3d3d3;"> </div>
+<div id="bar"  style="height:100%;width:49%;float:left; border:2.5px solid #d3d3d3;overflow:scroll;position:fixed;right:1px;">
+
+        <img src="../../images/example.png"/>
+
+    <p id="eventSpan">
+    </p>
+    <p id="numSpan">
+    </p>
+</div>
+<script type="text/javascript">
+    // create an array with nodes
+    let id = [[${OID}]];
+    var edges;
+    var nodes;
+    var network;
+    var NodeNum=0;
+    $.ajax({
+        type: "GET",
+        url: "/tcmcompound/origin/graph_init",
+        data: {"OID":id},
+        datatype: "json",
+        error: function(error) {
+            console.log(error.toString());
+        },
+        success: function(data){
+            console.log(data);
+            edges=new vis.DataSet(data.edges);
+            nodes=new vis.DataSet(data.nodes);
+            var container = document.getElementById('mynetwork');
+            var data = {
+                nodes: nodes,
+                edges: edges
+            };
+            var screen_height=(window.screen.availHeight)-60;
+
+            $("#mynetwork").css({'height':screen_height});
+            var options = {
+
+                edges:
+                    {
+
+                        color: {
+                            color:'#97C2FC',
+                            highlight:'#f403f4',
+                            hover: 'green',
+
+                            opacity:1.0
+                        },
+                    },
+
+                nodes:
+                    {
+                        shape:'dot',
+                        size:15,
+                        color: {
+                            border: '#2B7CE9',
+                            background: '#97C2FC',
+                            highlight: {
+                                border: '#2B7CE9',
+                                background: '#f403f4'
+                            },
+                            hover: {
+                                border: '#2B7CE9',
+                                background: '#f403f4'
+                            }
+                        },
+
+                    },
+
+
+                groups:{
+                    p:{color:{background:'red'}, borderWidth:1,shape:'triangle'},
+                    o:{color:{background:'#39C5BB'}, borderWidth:1,shape:'triangle'},
+                    i:{color:{background:'blue'}, borderWidth:1,shape:'dot'},
+                    t:{color:{background:'yellow'}, borderWidth:1,shape:'square'},
+                    h:{color:{background:'green'}, borderWidth:1,shape:'star'},
+                    m:{color:{background:'green'}, borderWidth:1,shape:'star'},
+                    drug:{color:{background:'#FB7E81'}, borderWidth:1,shape:'diamond'},
+                    disease:{color:{background:'#C2FABC'}, borderWidth:1,shape:'diamond'}
+                },
+                layout: {
+                    improvedLayout: false,
+                },
+                interaction:
+                    {
+                        navigationButtons: true,
+                        keyboard: true,
+                        hover:true,
+                    },
+                manipulation: {
+                    enabled: true
+                }
+
+            };
+            network = new vis.Network(container, data, options);
+            network.on("click", function (params) {
+                var nodeID=params.nodes[0];
+                if(nodeID==undefined)return;
+                var real_id=nodeID.split("_")[1];
+                var findNode=nodes.get(nodeID);
+                var group=findNode.group;
+                var flag=findNode.fold;
+                var s="";
+                if(group=="o")s="/tcmcompound/origin/"+real_id;
+                else if(group=="p")s="/tcmcompound/prescription/"+real_id;
+                else if(group=="h")s="/tcmcompound/herb/"+real_id;
+                else if(group=="m")s="/tcmcompound/medicine/"+real_id;
+                else if(group=="i"){
+                    if(real_id<0)s="/tcmcompound/compound/"+(-real_id);
+                    else s="/tcmcompound/ingredient/"+real_id;
+                }
+                else if(group=="t")s="/tcmcompound/target/"+real_id;
+                else if(group=="disease")s="/tcmcompound/disease/"+real_id;
+                else if(group=="drug")s="/tcmcompound/drug/"+real_id;
+                document.getElementById("eventSpan").innerHTML="条目链接:  <a href='"+s+"'>"+findNode.label+"</a>";
+                document.getElementById("numSpan").innerText="";
+                var url_s="";
+                var edge_group="";
+                if(group=="o"){
+                    edge_group="oi"
+                    url_s="/tcmcompound/origin/graph";
+                }
+                else if(group=="i"&&real_id>0){
+                    edge_group="it";
+                    url_s="/tcmcompound/ingredient/graph";
+                }
+                else if(group=="t"){
+                    edge_group="td";
+                    url_s="/tcmcompound/target/graph";
+                }
+                else if(group=="h"){
+                    edge_group="hi";
+                    url_s="/tcmcompound/herb/graph";
+                }
+                else if(group=="p"){
+                    edge_group="ph";
+                    url_s="/tcmcompound/prescription/graph";
+                }
+                else return;
+                if(flag==true){
+                    addNodes(nodeID,url_s);
+                    nodes.update({id:nodeID,fold:false});
+                }
+                else{
+                    removeNodes(nodeID,url_s,edge_group);
+                    nodes.update({id:nodeID,fold:true});
+                }
+            });
+        }});
+    function addNodes(idName,url_s) {
+        $.ajax({
+            type: "GET",
+            url: url_s,
+            data: {"idName":idName},
+            datatype: "json",
+            error: function(error) {
+                console.log(error.toString());
+            },
+            success: function(data){
+                console.log(data);
+                NodeNum=data.NodeNum;
+                document.getElementById("numSpan").innerText="有"+NodeNum+"个子项。当子项超过120时,会无法展开";
+                if(NodeNum>=120){
+                    return;
+                }
+                var newNodes=data.nodes;
+                var len=newNodes.length;
+                for(var i=0;i<len;i++){
+                    nodes.add(newNodes[i]);
+                }
+                var newEdges=data.edges;
+                len=newEdges.length;
+                for(var i=0;i<len;i++){
+                    edges.add(newEdges[i]);
+                }
+                var data = {
+                    nodes: nodes,
+                    edges: edges
+                };
+
+                network.setData(data);
+            }});
+    }
+    function removeNodes(idName,url_s,edge_group) {
+        $.ajax({
+            type: "GET",
+            url: url_s,
+            data: {"idName":idName},
+            datatype: "json",
+            error: function(error) {
+                console.log(error.toString());
+            },
+            success: function(data){
+                console.log(data);
+                NodeNum=data.NodeNum;
+                document.getElementById("numSpan").innerText="有"+NodeNum+"个子项。当子项超过120时,无法展开";
+                if(NodeNum>=120){
+                    return;
+                }
+                var newNodes=data.nodes;
+                var len=newNodes.length;
+                if(edge_group=="oi"){
+                    for(var i=0;i<len;i++){
+                        var newIdName=newNodes[i].id;
+                        var findNode=nodes.get(newIdName);
+                        if(findNode.fold==false)removeNodes(newIdName,"/tcmcompound/ingredient/graph","it");
+                        nodes.remove(findNode);
+                        edges.remove({id:edge_group+newIdName+idName});
+                    }
+                }
+                else if(edge_group=="hi"){
+                    for(var i=0;i<len;i++){
+                        var newIdName=newNodes[i].id;
+                        var findNode=nodes.get(newIdName);
+                        if(findNode.fold==false)removeNodes(newIdName,"/tcmcompound/ingredient/graph","it");
+                        nodes.remove(findNode);
+                        edges.remove({id:idName.charAt(0)+newIdName.charAt(0)+newIdName+idName});
+                    }
+                }
+                else if(edge_group=="it"){
+                    for(var i=0;i<len;i++){
+                        var newIdName=newNodes[i].id;
+                        var findNode=nodes.get(newIdName);
+                        if(findNode.fold==false)removeNodes(newIdName,"/tcmcompound/target/graph","td");
+                        nodes.remove(findNode);
+                        edges.remove({id:edge_group+newNodes[i].id+idName});
+                    }
+                }
+                else{
+                    for(var i=0;i<len;i++){
+                        var findNode=nodes.get(newNodes[i].id);
+                        nodes.remove(findNode);
+                        edges.remove({id:edge_group+newNodes[i].id+idName});
+                    }
+                }
+                var data = {
+                    nodes: nodes,
+                    edges: edges
+                };
+
+                network.setData(data);
+            }});
+
+    }
+
+</script>
+</body>
+</html>

@@ -26,6 +26,7 @@ public class MedicineController {
         model.addAttribute("origins", medService.getOriginById(id));
         model.addAttribute("tcm_id", med.getTcm_id());
         model.addAttribute("tcm_name", med.getTcm_name());
+        model.addAttribute("herb",medService.getHerbById(id));
         return "medicine";
     }
 }

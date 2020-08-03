@@ -101,6 +101,19 @@
 
         </table>
     </div>
+    <div class="basic-content">
+        <div class="new-title">
+            <span class="title-icon"></span>
+            <span class="title-name">关系图展示</span>
+        </div>
+        <div class="origin-list">
+            <ul class="row">
+                <li  class="col-md-2">
+                    <a th:text="关系图" th:href="'./graph/'+${ID}"></a>
+                </li>
+            </ul>
+        </div>
+    </div>
 </div>
 <div th:replace="fragments/footer :: footer">footer</div>
 <script th:src="@{/js/jquery-3.2.1/jquery.min.js}" type="text/javascript"></script>

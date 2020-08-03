@@ -19,4 +19,6 @@ public interface MedOriginDao {
     MedOrigin findByName(String name);
     @Select("SELECT * FROM origin WHERE id=${id}")
     MedOrigin findById(Integer id);
+    @Select("SELECT name FROM origin WHERE id=${id}")
+    String findNameById(Integer id);
 }

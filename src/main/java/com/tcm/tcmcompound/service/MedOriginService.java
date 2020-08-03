@@ -12,8 +12,11 @@ public interface MedOriginService {
     List<MedOrigin> getByNameContaining(String name);
     List<String> getMedByName(String name);
     Map<Integer, String> getMedById(Integer id);
+    Map<Integer, String> getCompoundById(Integer id);
     MedOrigin getByName(String name);
     MedOrigin getById(Integer id);
     List<MedOriginCompoundRelate> getRelateByOrigin(String name);
     List<MedOriginCompoundRelate> getRelateByOriginId(Integer id);
+    String getNameById(Integer id);
+    Map<Integer, String> getGraphMedById(Integer id);
 }
