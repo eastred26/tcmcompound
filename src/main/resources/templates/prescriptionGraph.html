@@ -1,21 +1,43 @@
-<!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="utf-8">
 <head>
-    <title>PrescriptionGraph</title>
+    <meta content="text/html;charset=UTF-8"/>
+    <meta http-equiv="x-ua-compatible" content="IE=edge"/>
+    <meta name="viewpoint" content="width=device-width, initial-scale=1"/>
     <script th:src="@{/js/vis-network.min.js}" type="text/javascript"></script>
     <script th:src="@{/js/jquery-3.2.1/jquery.min.js}" type="text/javascript"></script>
+    <link th:href="@{/favicon.ico}" rel="icon" type="image/x-icon">
+    <link th:href="@{/css/search_area.css}" rel="stylesheet">
+    <link th:href="@{/datatable/jquery.dataTables.css}" rel="stylesheet">
+    <link th:href="@{/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
     <style type="text/css">
         #mynetwork {
             width: 600px;
-            height: 400px;
+            height: 600px;
+            border: 1px solid lightgray;
+        }
+        #infobar {
+            width: 600px;
+            height: 660px;
             border: 1px solid lightgray;
         }
     </style>
+    <title>PrescriptionGraph</title>
 </head>
 <body>
+<div th:fragment="navbar" class="wrapper" role="navigation">
+    <div th:replace="fragments/header :: header">Header</div>
+</div>
+
+<div class="sub-nav">
+    当前位置：<a href="http://zcy.ckcest.cn/tcm/"> 首页 </a>> <a href="../../home">中药成分结构数据专题</a>> <a id="info" href="../../home">方剂</a>
+    &gt;方剂关系图
+</div>
 <div id="mynetwork" style="width:50%;float:left; border:2.5px solid #d3d3d3;"> </div>
-<div id="bar"  style="height:100%;width:49%;float:left; border:2.5px solid #d3d3d3;overflow:scroll;position:fixed;right:1px;">
+<div id="infobar"  style="width:49%;float:left; border:2.5px solid #d3d3d3;right:1px;">
+
     <img src="../../images/example.png"/>
+
     <p id="eventSpan">
     </p>
     <p id="numSpan">
@@ -24,6 +46,7 @@
 <script type="text/javascript">
     // create an array with nodes
     let id = [[${PID}]];
+    document.getElementById("info").setAttribute("href","../"+id);
     var edges;
     var nodes;
     var network;
@@ -253,5 +276,7 @@
     }
 
 </script>
+
+<div th:replace="fragments/footer :: footer">footer</div>
 </body>
 </html>

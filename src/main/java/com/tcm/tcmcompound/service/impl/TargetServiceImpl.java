@@ -31,7 +31,7 @@ public class TargetServiceImpl implements TargetService {
     public Map<Integer, String> getDiseaseById(Integer id){
         Map<Integer, String> allName = new LinkedHashMap<>();
         String s=targetDao.findOmimById(id);
-        System.out.println(s);
+        //System.out.println(s);
         if(!s.equals("NA")){
             String []items=s.split(";");
             for(String item:items){

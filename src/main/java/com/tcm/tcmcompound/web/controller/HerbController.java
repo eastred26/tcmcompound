@@ -135,11 +135,14 @@ public class HerbController {
         ArrayList<GEdge> EdgeList = new ArrayList<GEdge>();
         int num=0;
         Map<Integer,String> mmap=herbService.getIngredientById(hid);
+        Map<Integer,String> mmap2=new HashMap<>();
         if(med!=null){
-            Map<Integer,String> mmap2=medService.getOriginById(med);
+            mmap2=medService.getOriginById(med);
+        }
+        num=mmap2.keySet().size()+mmap.keySet().size();
+        if(med!=null){
             if(!mmap2.isEmpty()){
-                num=mmap2.keySet().size()+mmap.keySet().size();;
-                if(num<100){
+                if(num<120){
                     for(Map.Entry<Integer,String> entry:mmap2.entrySet()){
                         String iidName="o_"+entry.getKey()+"_"+hid;
                         GNode gNode1 = new GNode(iidName, entry.getValue(),"o",true);

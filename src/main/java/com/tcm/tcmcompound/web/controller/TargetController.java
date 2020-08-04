@@ -37,7 +37,7 @@ public class TargetController {
     public HashMap<String, Object> findDiseasesGraph(String idName){
         String tid_s=idName.split("_")[1];
         int tid=Integer.parseInt(tid_s);
-        System.out.println(tid);
+        //System.out.println(tid);
         HashMap<String, Object> map = new HashMap<String, Object>();
         ArrayList<GNode> NodeList = new ArrayList<GNode>();
         ArrayList<GEdge> EdgeList = new ArrayList<GEdge>();

@@ -45,7 +45,7 @@ public class IngredientController {
     public HashMap<String, Object> findTargetsGraph(String idName){
         String iid_s=idName.split("_")[1];
         int iid=Integer.parseInt(iid_s);
-        System.out.println(iid);
+        //System.out.println(iid);
         HashMap<String, Object> map = new HashMap<String, Object>();
         ArrayList<GNode> NodeList = new ArrayList<GNode>();
         ArrayList<GEdge> EdgeList = new ArrayList<GEdge>();

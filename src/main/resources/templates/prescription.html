@@ -9,7 +9,7 @@
     <link th:href="@{/datatable/jquery.dataTables.css}" rel="stylesheet">
     <link th:href="@{/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
     <link th:href="@{/css/medicine.css}" rel="stylesheet">
-    <title>中药成分结构数据专题-处方</title>
+    <title>中药成分结构数据专题-方剂</title>
 </head>
 <body th:style="'background:url('+@{/images/backperson1.png}+') right bottom no-repeat fixed,url('+@{/images/backperson2.png}+') left bottom no-repeat fixed;background-size: 450px;background-color: #f5f5f5;'">
 <div th:fragment="navbar" class="wrapper" role="navigation">
@@ -17,10 +17,10 @@
 </div>
 <div class="content-container">
     <div class="sub-nav">
-        当前位置：<a href="http://zcy.ckcest.cn/tcm/"> 首页 </a>> <a href="../home">中药成分结构数据专题</a>
-        &gt;处方
-    </div>
-    <div class="detail-head" id="tcm_detail_head" th:text="'处方：'+${name}">
+    当前位置：<a href="http://zcy.ckcest.cn/tcm/"> 首页 </a>> <a href="../home">中药成分结构数据专题</a>
+    &gt;方剂
+</div>
+    <div class="detail-head" id="tcm_detail_head" th:text="'方剂：'+${name}">
     </div>
     <div class="basic-content">
         <div class="new-title">

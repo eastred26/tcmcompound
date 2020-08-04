@@ -6,12 +6,6 @@ herb_med这个表是由名字匹配产生的，匹配了herb与medicine。访问
 
 prescription_herb2其实就是把prescription_herb变成了一条条的，本来搞这个表，是想做一个通过herb找到prescription,但是发现一个herb常常对应上百近千条prescription,所以就还没做。
 
-### lombok
-
-### Mybatis
-
-用Mybatis替换了部分jpa来进行数据库操作。
-
 
 
 ### 可视化：
