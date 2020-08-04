@@ -17,6 +17,6 @@ public class Med {
     private Integer tcm_id;
     private String tcm_name;
     private String source;
-
+    private String med_name_alias;
 
 }
