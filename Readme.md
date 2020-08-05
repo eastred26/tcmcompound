@@ -19,7 +19,7 @@
 | ID              | herb的ID                                           |
 | Ingredient_ID   | 对应的ingredient的ID的集合，每个ID间有一个空格分隔 |
 
-<img src="C:\Users\minnix\AppData\Roaming\Typora\typora-user-images\image-20200805015741754.png" alt="image-20200805015741754" style="zoom:50%;" />
+<img src="assets/image-20200805015741754.png" alt="image-20200805015741754" style="zoom:50%;" />
 
 
 
