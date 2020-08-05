@@ -72,7 +72,7 @@ https://visjs.github.io/vis-network/docs/network/
 
 初始状态。我们点击节点即可展开，再次点击则会收回。
 
-![image-20200805021914448](readme_img/image-20200803193449667.png)
+![image-20200805021914448](assets/image-20200803193449667.png)
 
 左侧是关系图，右边是图示，以及所点击的点的链接与子项数。子项数太多可视化会出现混乱，所以超过120这里就直接不显示了。
 
@@ -82,7 +82,7 @@ https://visjs.github.io/vis-network/docs/network/
 
 经过一定的点击，展开后：
 
-![image-20200805022145012](D:\CLASS\springboot学习\tcmcompound\readme_img\image-20200803193314425.png)
+![image-20200805022145012](assets/image-20200803193314425.png)
 
 
 
@@ -106,7 +106,7 @@ id是边的类型(如ph,hi,pi)+子节点id+父节点id
 
 id名是   group+节点数字ID+父节点的数字ID，如果是初始节点，就只是group+数字ID。
 
-<img src="D:/CLASS/springboot学习/tcmcompound/readme_img/image-20200803185722010.png" alt="image-20200803185722010" style="zoom:50%;" />
+<img src="assets/image-20200803185722010.png" alt="image-20200803185722010" style="zoom:50%;" />
 
 #### 可视化网页实现
 
