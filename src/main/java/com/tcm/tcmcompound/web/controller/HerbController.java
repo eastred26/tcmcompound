@@ -1,5 +1,6 @@
 package com.tcm.tcmcompound.web.controller;
 
+import com.tcm.tcmcompound.dao.UtilDao;
 import com.tcm.tcmcompound.pojo.GEdge;
 import com.tcm.tcmcompound.pojo.GNode;
 import com.tcm.tcmcompound.dao.HerbDao;
@@ -9,6 +10,7 @@ import com.tcm.tcmcompound.service.HerbService;
 import com.tcm.tcmcompound.service.IngredientService;
 import com.tcm.tcmcompound.service.MedService;
 import com.tcm.tcmcompound.service.PrescriptionService;
+import com.tcm.tcmcompound.utils.ChineseCharacterUtil;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -33,7 +35,7 @@ public class HerbController {
 
     @Autowired
     private MedService medService;
-
+    
     @RequestMapping("/{id}")
     String home(Model model, @PathVariable int id) {
         Herb herb = herbService.getById(id);
@@ -47,8 +49,17 @@ public class HerbController {
         model.addAttribute("meridians", herb.getMeridians());
         model.addAttribute("properties", herb.getProperties());
         model.addAttribute("use_part", herb.getUse_part());
-        model.addAttribute("ingredients", herbService.getIngredientById(id));
         model.addAttribute("medicine",herbService.getMedById(id));
+        model.addAttribute("tcm_id",herbService.getTcmIdById(id));
+        Integer med=herbService.getMedById(id);
+        model.addAttribute("targets",herbService.getTargetById(id));
+        if(med!=null){
+            model.addAttribute("med_origin", medService.getById(med).getMed_origin());
+            model.addAttribute("origins", medService.getOriginById(med));
+        }
+        else{
+            model.addAttribute("med_origin",null);
+        }
         model.addAttribute("ID", id);
         return "herb";
     }
@@ -216,6 +227,4 @@ public class HerbController {
         model.addAttribute("HID",HID);
         return "herbGraph";
     }
-
-
 }

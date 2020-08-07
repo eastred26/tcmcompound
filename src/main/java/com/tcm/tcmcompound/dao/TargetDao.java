@@ -1,5 +1,6 @@
 package com.tcm.tcmcompound.dao;
 
+import com.tcm.tcmcompound.pojo.IngredientSimple;
 import com.tcm.tcmcompound.pojo.Prescription;
 import com.tcm.tcmcompound.pojo.Target;
 import org.apache.ibatis.annotations.Select;
@@ -19,4 +20,6 @@ public interface TargetDao {
     String findDrugbankById(Integer id);
     @Select("SELECT Name FROM target WHERE ID=${id}")
     String findNameById(Integer id);
+    @Select("SELECT ingredient_name,ingredient_id FROM ingredient_targets_disease_drug WHERE target_id='${tid}'")
+    List<IngredientSimple> getIngredientsById(Integer tid);
 }

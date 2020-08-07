@@ -1,6 +1,7 @@
 package com.tcm.tcmcompound.web.controller;
 
 import com.tcm.tcmcompound.pojo.Med;
+import com.tcm.tcmcompound.service.HerbService;
 import com.tcm.tcmcompound.service.MedService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class MedicineController {
     @Autowired
     private MedService medService;
+    @Autowired
+    private HerbService herbService;
 
 
     @RequestMapping("/medicine/{id}")
@@ -27,7 +30,12 @@ public class MedicineController {
         model.addAttribute("tcm_id", med.getTcm_id());
         model.addAttribute("tcm_name", med.getTcm_name());
         model.addAttribute("name_alias", med.getMed_name_alias());
-        model.addAttribute("herb",medService.getHerbById(id));
+        model.addAttribute("source",med.getSource());
+        Integer hid=medService.getHerbById(id);
+        model.addAttribute("herb",hid);
+        if(hid!=null){
+            model.addAttribute("targets",herbService.getTargetById(hid));
+        }
         return "medicine";
     }
 }

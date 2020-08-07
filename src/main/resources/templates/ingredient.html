@@ -49,7 +49,22 @@
             —>更多
         </a>
     </div>
-    <div class="basic-content">
+
+    <div class="basic-content" th:if=" ${origins}!=null">
+        <div class="new-title">
+            <span class="title-icon"></span>
+            <span class="title-name">相关基源</span>
+        </div>
+        <div class="origin-list">
+            <ul class="row">
+                <li th:each="origin : ${origins}" class="col-md-2">
+                    <a th:text="${origin.value}" th:href="'../origin/'+${origin.key}"></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="basic-content" th:if="${targets} != null">
         <div class="new-title">
             <span class="title-icon"></span>
             <span class="title-name">相关蛋白质靶点</span>
@@ -58,6 +73,23 @@
             <ul class="row">
                 <li th:each="target : ${targets}" >
                     <a th:text="${target.value}" th:href="'../target/'+${target.key}"></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="basic-content">
+        <div class="new-title">
+            <span class="title-icon"></span>
+            <span class="title-name">相关中药</span>
+        </div>
+        <div class="origin-list">
+            <ul class="row">
+                <li th:each="med : ${meds}" class="col-md-5">
+                    <a th:text="${med.value}" th:href="'../medicine/'+${med.key}"></a>
+                </li>
+                <li th:each="herb : ${herbs}" class="col-md-5">
+                    <a th:text="${herb.value}" th:href="'../herb/'+${herb.key}"></a>
                 </li>
             </ul>
         </div>

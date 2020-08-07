@@ -4,6 +4,7 @@ import com.tcm.tcmcompound.pojo.GEdge;
 import com.tcm.tcmcompound.pojo.GNode;
 import com.tcm.tcmcompound.pojo.Ingredient;
 import com.tcm.tcmcompound.pojo.Med;
+import com.tcm.tcmcompound.service.CompoundService;
 import com.tcm.tcmcompound.service.IngredientService;
 import com.tcm.tcmcompound.service.MedService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,8 @@ import java.util.Map;
 public class IngredientController {
     @Autowired
     private IngredientService ingredientService;
+    @Autowired
+    private CompoundService compoundService;
 
 
     @RequestMapping("/{id}")
@@ -38,6 +41,13 @@ public class IngredientController {
         model.addAttribute("SMILE", ingredient.getSMILE());
         model.addAttribute("compound",compound_s);
         model.addAttribute("targets",ingredientService.getTargetsByName(name));
+        model.addAttribute("herbs",ingredientService.getHerbsById(id));
+        if(compound_s!=null){
+            int cid=Integer.parseInt(compound_s);
+            model.addAttribute("meds",compoundService.getMedsById(cid));
+            model.addAttribute("origins", compoundService.getOriginsById(cid));
+        }
+        else model.addAttribute("meds",null);
         return "ingredient";
     }
     @ResponseBody

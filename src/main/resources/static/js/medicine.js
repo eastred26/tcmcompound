@@ -30,11 +30,12 @@ function search() {
                 if(data.length!==0){
                     var id = 0;
                     data.forEach(function (value) {
-                        if(value['origin_name']!==null){
-                            value['originlink'] = '<a href=\"../origin/' +value['origin_id'] + '" target="_blank">'+ value['origin_name']+ '</a>';
-                        }
                         if(value['compound_name']!=null){
-                            value['compoundlink'] = '<a href=\"../compound/' +value['compound_id'] + '" target="_blank">'+ value['compound_name']+ '</a>';
+                            if(value['compound_id']<0){
+                                value['compound_id']=-value['compound_id'];
+                                value['compoundlink'] = '<a href=\"../ingredient/' +value['compound_id'] + '" target="_blank">'+ value['compound_name']+ '</a>';
+                            }
+                            else value['compoundlink'] = '<a href=\"../compound/' +value['compound_id'] + '" target="_blank">'+ value['compound_name']+ '</a>';
                         }
                         console.log(value);
                         tableData.push(value);
@@ -56,9 +57,7 @@ function addHold(tbody) {
     tbody.on('click','tr',function () {
         var medicine = $(this).children('td').get(0).innerText;
         var compound = $(this).children('td').get(1).innerText;
-        var origin = $(this).children('td').get(2).innerText;
-        var formula = $(this).children('td').get(3).innerText;
-        var molecular_weight = $(this).children('td').get(4).innerText;
+        var formula = $(this).children('td').get(2).innerText;
     });
 }
 
@@ -70,21 +69,14 @@ function showTable(data) {
         {
             data:data,
             columns: [
-                { data: 'medicine_name', width: "20%" },
-                { data: 'compoundlink', width: "30%"},
-                { data: 'originlink', width: "20%" },
-                { data: 'formula', width:"15%"},
-                { data: 'molecular_weight', width: "15%"},
+                { data: 'medicine_name', width: "25%" },
+                { data: 'compoundlink', width: "40%"},
+                { data: 'formula', width:"35%"},
             ],
             searching: true,
             ordering:  true,
             order: [[ 1, 'asc' ], [ 2, 'asc' ]],
             columnDefs: [
-                {
-                    targets: [ 3, 4],
-                    orderable: false,
-                    searchable: false
-                },
                 { targets: 0, orderable: false },
                 { targets: 1, orderable: true, orderData: [ 1, 2] },
                 { type: "chinese-string", targets: [2] }  ],

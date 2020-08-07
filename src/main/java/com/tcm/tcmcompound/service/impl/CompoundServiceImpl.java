@@ -70,6 +70,7 @@ public class CompoundServiceImpl implements CompoundService {
         for (MedOriginCompoundRelate item : listMedOriginCompoundRelate) {
             allMeds.put(item.getMedicine_id(), item.getMedicine_name());
         }
+        if(allMeds.isEmpty())return  null;
         return allMeds;
     }
 
@@ -80,6 +81,7 @@ public class CompoundServiceImpl implements CompoundService {
         for (MedOriginCompoundRelate item:listMedOriginCompoundRelate) {
             allMeds.put(item.getOrigin_id(), item.getOrigin_name());
         }
+        if(allMeds.isEmpty())return  null;
         return  allMeds;
     }
 
@@ -88,6 +90,7 @@ public class CompoundServiceImpl implements CompoundService {
         return compoundDao.findAllStructureName();
     }
 
+    //根据compound查询相对应的ingredient
     @Override
     public String getIngredient(Integer id){
         String pubchem_id=compoundDao.findPubchemById(id);

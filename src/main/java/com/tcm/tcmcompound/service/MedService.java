@@ -1,5 +1,6 @@
 package com.tcm.tcmcompound.service;
 
+import com.tcm.tcmcompound.pojo.CompoundSimple;
 import com.tcm.tcmcompound.pojo.Med;
 import com.tcm.tcmcompound.pojo.MedOriginCompoundRelate;
 import com.tcm.tcmcompound.pojo.MedOriginRelate;
@@ -20,4 +21,6 @@ public interface MedService {
     List<MedOriginCompoundRelate> getRelateByMedId(Integer id);
     String getPinyinById(Integer id);
     Integer getHerbById(Integer id);
+    List<CompoundSimple> getCompoundByMedId(Integer id);
+    String getNameById(Integer id);
 }

@@ -1,9 +1,11 @@
 package com.tcm.tcmcompound.pojo;
+import lombok.Builder;
 import lombok.Data;
 
 import javax.persistence.*;
 
 @Data
+@Builder
 public class MedOriginCompoundRelate {
     private int id;
     private Integer medicine_id;
@@ -17,5 +19,4 @@ public class MedOriginCompoundRelate {
     private String zju_id;
     private String formula;
     private String molecular_weight;
-
 }

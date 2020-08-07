@@ -30,6 +30,8 @@ public class TargetController {
         model.addAttribute("gene_name",target.getGene_Name());
         model.addAttribute("drugs",targetService.getDrugById(id));
         model.addAttribute("diseases",targetService.getDiseaseById(id));
+        model.addAttribute("ingredients",targetService.getIngredientsById(id));
+        model.addAttribute("herbs",targetService.getHerbsById(id));
         return "target";
     }
     @ResponseBody

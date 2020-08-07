@@ -3,6 +3,7 @@ package com.tcm.tcmcompound.service.impl;
 import com.tcm.tcmcompound.dao.MedDao;
 import com.tcm.tcmcompound.dao.MedOriginCompoundRelateDao;
 import com.tcm.tcmcompound.dao.MedOriginRelateDao;
+import com.tcm.tcmcompound.pojo.CompoundSimple;
 import com.tcm.tcmcompound.pojo.Med;
 import com.tcm.tcmcompound.pojo.MedOriginCompoundRelate;
 import com.tcm.tcmcompound.pojo.MedOriginRelate;
@@ -77,6 +78,7 @@ public class MedServiceImpl implements MedService {
         for (MedOriginRelate item:listMedOriginRelate) {
             allName.add(item.getOrigin_name_zh());
         }
+        if(allName.isEmpty())return  null;
         return allName;
     }
 
@@ -87,9 +89,13 @@ public class MedServiceImpl implements MedService {
         for (MedOriginRelate item:listMedOriginRelate) {
             allName.put(item.getOrigin_id(), item.getOrigin_name_zh());
         }
+        if(allName.isEmpty())return  null;
         return allName;
     }
-
+    @Override
+    public String getNameById(Integer id){
+        return medDao.findNameById(id);
+    }
     @Override
     public List<MedOriginCompoundRelate> getRelateByMed(String name){
         return new ArrayList<>(medOriginCompoundRelateDao.findByMedicineName(name));
@@ -98,5 +104,9 @@ public class MedServiceImpl implements MedService {
     @Override
     public List<MedOriginCompoundRelate> getRelateByMedId(Integer id){
         return new ArrayList<>(medOriginCompoundRelateDao.findByMedicineId(id));
+    }
+    @Override
+    public List<CompoundSimple> getCompoundByMedId(Integer id){
+        return medOriginCompoundRelateDao.findCompoundByMedId(id);
     }
 }

@@ -39,33 +39,73 @@
 
         </div>
     </div>
-    <div class="basic-content">
+    <div class="basic-content" th:if="${drugs} != null">
         <div class="new-title">
             <span class="title-icon"></span>
             <span class="title-name">相关药物</span>
         </div>
         <div class="origin-list">
             <ul class="row">
-                <li th:each="drug : ${drugs}" >
+                <li th:each="drug : ${drugs}">
                     <a th:text="${drug.value}" th:href="'../drug/'+${drug.key}"></a>
                 </li>
             </ul>
         </div>
     </div>
-    <div class="basic-content">
+    <div class="basic-content" th:if="${diseases} != null">
         <div class="new-title">
             <span class="title-icon"></span>
             <span class="title-name">相关疾病</span>
         </div>
         <div class="origin-list">
             <ul class="row">
-                <li th:each="disease : ${diseases}" >
+                <li th:each="disease : ${diseases}" class="col-md-5">
                     <a th:text="${disease.value}" th:href="'../disease/'+${disease.key}"></a>
                 </li>
             </ul>
         </div>
     </div>
+    <div class="basic-content" th:if="${ingredients} != null">
+        <div class="new-title">
+            <span class="title-icon"></span>
+            <span class="title-name">相关疾病</span>
+        </div>
+        <div class="origin-list">
+            <ul class="row">
+                <li th:each="ingredient : ${ingredients}"  class="col-md-5">
+                    <a th:text="${ingredient.value}" th:href="'../ingredient/'+${ingredient.key}"></a>
+                </li>
+            </ul>
+        </div>
+    </div>
 
+    <div class="basic-content" th:if="${ingredients}!=null">
+        <div class="new-title">
+            <span class="title-icon"></span>
+            <span class="title-name">相关化合物</span>
+        </div>
+        <div class="origin-list">
+            <ul class="row">
+                <li th:each="ingredient : ${ingredients}" class="col-md-5">
+                    <a th:text="${ingredient.value}" th:href="'../ingredient/'+${ingredient.key}"></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="basic-content" th:if="${herbs}!=null">
+        <div class="new-title">
+            <span class="title-icon"></span>
+            <span class="title-name">相关中药</span>
+        </div>
+        <div class="origin-list">
+            <ul class="row">
+                <li th:each="herb : ${herbs}" class="col-md-2">
+                    <a th:text="${herb.value}" th:href="'../herb/'+${herb.key}"></a>
+                </li>
+            </ul>
+        </div>
+    </div>
 </div>
 <div th:replace="fragments/footer :: footer">footer</div>
 <script th:src="@{/js/jquery-3.2.1/jquery.min.js}" type="text/javascript"></script>

@@ -7,11 +7,15 @@ public class HerbName {
     private String pinyinName;
     private String latinName;
     private String chineseName;
+    private String englishName;
 
     public String getName(){
         if(chineseName.equals("NA")){
             if(pinyinName.equals("NA")){
-                return latinName;
+                if(englishName.equals("NA")){
+                    return latinName;
+                }
+                return englishName;
             }
             return pinyinName;
         }

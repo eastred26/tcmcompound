@@ -3,6 +3,7 @@ package com.tcm.tcmcompound.service.impl;
 import com.tcm.tcmcompound.dao.HerbDao;
 import com.tcm.tcmcompound.dao.IngredientDao;
 import com.tcm.tcmcompound.dao.PrescriptionDao;
+import com.tcm.tcmcompound.dao.TargetDao;
 import com.tcm.tcmcompound.pojo.Herb;
 import com.tcm.tcmcompound.pojo.HerbName;
 import com.tcm.tcmcompound.pojo.Ingredient;
@@ -23,6 +24,8 @@ public class HerbServiceImpl implements HerbService {
 
     @Autowired
     private PrescriptionDao prescriptionDao;
+    @Autowired
+    private TargetDao targetDao;
     @Override
     public String getNamebyId(int id){
         HerbName herbName=herbDao.getHerbName(id);
@@ -43,6 +46,10 @@ public class HerbServiceImpl implements HerbService {
         return herbDao.findById(id);
     }
     @Override
+    public Integer getTcmIdById(Integer id){
+        return herbDao.getTcmIdById(id);
+    }
+    @Override
     public Map<Integer, String> getIngredientById(Integer id){
         Map<Integer, String> allName = new LinkedHashMap<>();
         String ss=herbDao.getIngredients(id);
@@ -53,6 +60,26 @@ public class HerbServiceImpl implements HerbService {
             String name=ingredientDao.getIngredientName(iid);
             allName.put(iid,name);
         }
+        if(allName.isEmpty())return null;
+        return allName;
+    }
+    @Override
+    public Map<Integer, String> getTargetById(Integer id){
+        Map<Integer, String> allName = new LinkedHashMap<>();
+        String ss=herbDao.getIngredients(id);
+        if(ss==null)return allName;
+        String []iids=ss.trim().split("\\s+");
+        for(String item:iids){
+            int iid=Integer.parseInt(item);
+            String name=ingredientDao.getIngredientName(iid);
+            List<String> list=ingredientDao.getTargetsByName(name);
+            for(String item1:list){
+                if(item1.equals("NA"))continue;
+                Integer tid=Integer.parseInt(item1);
+                allName.put(tid,targetDao.findNameById(tid));
+            }
+        }
+        if(allName.isEmpty())return  null;
         return allName;
     }
     @Override
@@ -67,6 +94,7 @@ public class HerbServiceImpl implements HerbService {
             String name=prescriptionDao.findNameById(item);
             allName.put(item,name);
         }
+        if(allName.isEmpty())return  null;
         return allName;
     }
 }

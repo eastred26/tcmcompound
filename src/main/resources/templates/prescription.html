@@ -53,7 +53,7 @@
             —>更多
         </a>
     </div>
-    <div class="basic-content">
+    <div class="basic-content" th:if="${herbs}!=null">
         <div class="new-title">
             <span class="title-icon"></span>
             <span class="title-name">相关中药</span>
@@ -67,7 +67,7 @@
         </div>
     </div>
 
-    <div class="basic-content">
+    <div class="basic-content" th:if="${ingredients}!=null">
         <div class="new-title">
             <span class="title-icon"></span>
             <span class="title-name">相关化合物</span>

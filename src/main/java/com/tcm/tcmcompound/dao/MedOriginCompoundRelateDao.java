@@ -1,4 +1,5 @@
 package com.tcm.tcmcompound.dao;
+import com.tcm.tcmcompound.pojo.CompoundSimple;
 import com.tcm.tcmcompound.pojo.MedOriginCompoundRelate;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -21,4 +22,6 @@ public interface MedOriginCompoundRelateDao {
     List<MedOriginCompoundRelate> findByMedicineName(String name);
     @Select("SELECT * FROM medicine_origin_compound_map WHERE origin_name=#{name}")
     List<MedOriginCompoundRelate> findByOriginName(String name);
+    @Select("SELECT DISTINCT(compound_id),compound_name,formula FROM medicine_origin_compound_map WHERE medicine_id=#{id}")
+    List<CompoundSimple> findCompoundByMedId(Integer id);
 }

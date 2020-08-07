@@ -1,6 +1,7 @@
 package com.tcm.tcmcompound.service.impl;
 
 import com.tcm.tcmcompound.dao.CompoundDao;
+import com.tcm.tcmcompound.dao.HerbDao;
 import com.tcm.tcmcompound.dao.IngredientDao;
 import com.tcm.tcmcompound.dao.TargetDao;
 import com.tcm.tcmcompound.pojo.Ingredient;
@@ -18,6 +19,8 @@ public class IngredientServiceImpl implements IngredientService {
     private IngredientDao ingredientDao;
     @Autowired
     private TargetDao targetDao;
+    @Autowired
+    private HerbDao herbDao;
     @Override
     public String getNamebyId(int id){
         return ingredientDao.getIngredientName(id);
@@ -40,6 +43,17 @@ public class IngredientServiceImpl implements IngredientService {
             Integer tid=Integer.parseInt(item);
             allName.put(tid,targetDao.findNameById(Integer.parseInt(item)));
         }
+        if(allName.isEmpty())return null;
+        return allName;
+    }
+    @Override
+    public Map<Integer,String> getHerbsById(Integer iid){
+        Map<Integer, String> allName = new LinkedHashMap<>();
+        List<Integer> list = ingredientDao.getHerbsByName(iid);
+        for(int item:list){
+            allName.put(item,herbDao.getHerbName(item).getName());
+        }
+        if(allName.isEmpty())return  null;
         return allName;
     }
 }

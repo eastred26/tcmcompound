@@ -11,8 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.swing.plaf.basic.ComboPopup;
-
 @Controller
 public class CompoundController {
     @Autowired
@@ -27,6 +25,7 @@ public class CompoundController {
         if(ingredient_id_s!=null){
             int ingredient_id=Integer.parseInt(ingredient_id_s);
             Ingredient ingredient = ingredientService.getIngredientById(ingredient_id);
+            model.addAttribute("herbs",ingredientService.getHerbsById(ingredient_id));
             model.addAttribute("Pubchem_ID",ingredient.getPubChem_ID());
             model.addAttribute("SMILE", ingredient.getSMILE());
             model.addAttribute("targets",ingredientService.getTargetsByName(ingredient.getName()));

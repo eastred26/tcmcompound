@@ -20,4 +20,6 @@ public interface IngredientDao {
     String getIdBypubchem(String id);
     @Select("SELECT target_id FROM ingredient_targets_disease_drug WHERE ingredient_name=#{name}")
     List<String> getTargetsByName(String name);
+    @Select("SELECT ID FROM herb_ingredient_item WHERE Ingredient_ID=#{iid}")
+    List<Integer> getHerbsByName(Integer iid);
 }

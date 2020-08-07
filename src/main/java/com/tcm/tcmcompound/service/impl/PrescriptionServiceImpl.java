@@ -50,13 +50,14 @@ public class PrescriptionServiceImpl implements PrescriptionService {
     public Map<Integer, String> getIngredientById(Integer id){
         Map<Integer, String> allName = new LinkedHashMap<>();
         String ss=prescriptionDao.findIngredientsById(id);
-        if(ss==null)return allName;
+        if(ss==null)return null;
         String []iids=ss.trim().split("\\s+");
         for(String item:iids){
             int iid=Integer.parseInt(item);
             String name=ingredientDao.getIngredientName(iid);
             allName.put(iid,name);
         }
+        if(allName.isEmpty())return  null;
         return allName;
     }
 
@@ -73,6 +74,7 @@ public class PrescriptionServiceImpl implements PrescriptionService {
         for(Prescription item:listMed) {
             allName.put(item.getId(), item.getChinese_name());
         }
+        if(allName.isEmpty())return  null;
         return allName;
     }
 

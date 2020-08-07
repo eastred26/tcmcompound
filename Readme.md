@@ -1,6 +1,6 @@
 ### 数据表说明
 
-**cas_pubchem** 表：在数据库中2个化合物的数据表，分别为compound与ingredient，而这2个表就是通过 cas_pubchem 表进行匹配。cas_pubchem 表是通过在Pubchem官网查询CAS号，然后获取响应的Pubchem ID，产生的。
+**cas_pubchem** 表：在数据库中2个化合物的数据表，分别为**compound**与**ingredient**，而这2个表就是通过 cas_pubchem 表进行匹配。cas_pubchem 表是通过在Pubchem官网查询CAS号，然后获取响应的Pubchem ID，产生的。
 
 | cas_pubchem |                                                              |
 | ----------- | ------------------------------------------------------------ |
@@ -9,6 +9,10 @@
 | Pubchem_ID  | ingredient的字段，可以用来查找对应的ingredient，另一方面也能通过这个ID访问Pubchem官网查看更多资料 |
 
 这样当我们拿到一个ingredient时，可以先取出Pubchem ID，然后就能找到对应的compound，完成了匹配。网页操作：访问ingredient/ *时，如果有对应的compound，会直接重定向至compound/ *,同时将资料也合并过去。
+
+**disease** 表：疾病表
+
+**drug** 表：西药表
 
 
 
@@ -23,14 +27,37 @@
 
 
 
+**herb_ingredient_item** 表：为 **herb_ingredient** 表的一条一条展开
+
+
+
+**ingredient_targets_disease_drug** 表：联系**ingredient**、**targets**、**disease**、**drug**四张表，其实实际逻辑是ingredient下面有target，然后target下有disease与drug
+
+
+
 **herb_med** 表：在数据库中2个中药的数据表，分别为herb与medicine，而这2个表就是通过 herb_med表进行匹配。这个表是由中药的拼音匹配产生的。
 
-| herb_med  |                    |
-| --------- | ------------------ |
-| Herb_ID： | herb的ID           |
-| Med_ID    | 对应的medicine的ID |
+| herb_med |                    |
+| -------- | ------------------ |
+| Herb_ID  | herb的ID           |
+| Med_ID   | 对应的medicine的ID |
 
 网页操作：访问herb/ *或medicine/ *时，如果有对应的，这会有跳转链接，只是做得随意了些，没有化合物那样合并 。
+
+
+
+**herb_tcm** 表：herb表与原来那个库里的中药匹配表。这个表是由中药的拼音匹配产生的。
+
+| herb_med |                           |
+| -------- | ------------------------- |
+| herb_id  | herb的ID                  |
+| tcm_id   | 对应的tcm的ID(原来那个库) |
+
+网页操作：访问herb/ *或medicine/ *时，如果有对应的，这会有跳转链接，只是做得随意了些，没有化合物那样合并 。
+
+
+
+**prescription** 表：方剂表
 
 
 
@@ -43,12 +70,18 @@
 
 
 
-**prescription_ingredient** 表：匹配prescription与herb
+**prescription_herb_item** 表：为 **prescription_herb** 表一条一条的展开
+
+这个表暂时还没用，因为发现一条**herb**可能对应近千条**prescription**，所以还没有在herb页面加上这个。
+
+
+
+**prescription_ingredient** 表：匹配prescription与herb（数据比较少，大部分都是空条目）
 
 | prescription_ingredient |                                                              |
 | ----------------------- | ------------------------------------------------------------ |
 | ID                      | prescription的ID                                             |
-| Ingredients             | 对应的Ingredient的ID的集合，每个ID间有一个空格分隔（不过数据比较少，大部分都是Null） |
+| Ingredients             | 对应的Ingredient的ID的集合，每个ID间有一个空格分隔（数据比较少，大部分都是Null） |
 
 
 
@@ -107,6 +140,18 @@ id是边的类型(如ph,hi,pi)+子节点id+父节点id
 id名是   group+节点数字ID+父节点的数字ID，如果是初始节点，就只是group+数字ID。
 
 <img src="assets/image-20200803185722010.png" alt="image-20200803185722010" style="zoom:50%;" />
+
+#### controller中的请求接口
+
+为了给可视化网页提供数据，我们在controller中设计了/graph与/graph_init这2个接口。
+
+##### 1./graph
+
+返回一个节点的子项及用于连接的边。根据点的id名，确定节点，并从数据库中获取节点的子项并创建点，再创建连接的边，最后还要统计一下将添加的点的个数，添加进map中。
+
+##### 2./graph_init
+
+返回用于初始化可视化网页所需要的点与边。因此它在/graph的基础上，还要完成初始点的设置。
 
 #### 可视化网页实现
 

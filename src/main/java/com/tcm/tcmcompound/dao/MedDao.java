@@ -21,6 +21,8 @@ public interface MedDao {
     Med findById(Integer id);
     @Select("SELECT med_name_pinyin FROM med_yaodian WHERE id=${id}")
     String findPinyinById(Integer id);
+    @Select("SELECT med_name_zh FROM med_yaodian WHERE id=${id}")
+    String findNameById(Integer id);
     @Select("SELECT Herb_ID FROM herb_med WHERE Med_ID=${id}")
     Integer findHerbById(Integer id);
 }

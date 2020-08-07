@@ -11,11 +11,12 @@ import java.util.List;
 
 @Component
 public interface HerbDao {
-    @Select("SELECT pinyin_name,chinese_name,latin_name FROM herb WHERE ID=#{id}")
+    @Select("SELECT pinyin_name,chinese_name,latin_name,english_name FROM herb WHERE ID=#{id}")
     @Results({
             @Result(property = "pinyinName", column = "pinyin_name"),
             @Result(property = "chineseName", column = "chinese_name"),
-            @Result(property = "latinName", column = "latin_name")
+            @Result(property = "latinName", column = "latin_name"),
+            @Result(property = "englishName", column = "english_name")
     })
     HerbName getHerbName(Integer id);
 
@@ -27,6 +28,8 @@ public interface HerbDao {
     String findPinyinById(Integer id);
     @Select("SELECT Med_ID FROM herb_med WHERE Herb_ID=${id}")
     Integer findMedById(Integer id);
-    @Select("SELECT Prescription_ID FROM prescription_herb2 WHERE Herb_ID=${id}")
+    @Select("SELECT Prescription_ID FROM prescription_herb_item WHERE Herb_ID=${id}")
     List<Integer> findPrescriptionById(Integer id);
+    @Select(("SELECT tcm_id FROM herb_tcm WHERE herb_id=${id}"))
+    Integer getTcmIdById(Integer id);
 }

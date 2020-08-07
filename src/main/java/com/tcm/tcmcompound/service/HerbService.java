@@ -12,4 +12,6 @@ public interface HerbService {
     public String getPinyinById(int id);
     Integer getMedById(Integer id);
     Map<Integer, String> findPrescriptionById(Integer id);
+    Integer getTcmIdById(Integer id);
+    Map<Integer, String> getTargetById(Integer id);
 }

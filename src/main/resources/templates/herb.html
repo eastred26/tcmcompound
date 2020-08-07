@@ -26,6 +26,9 @@
         <div class="new-title">
             <span class="title-icon"></span>
             <span class="title-name">基本信息</span>
+            <a th:if="${medicine} != null" class="tcm-link" target="_blank" th:href="'../medicine/'+${medicine}">
+                中文介绍
+            </a>
         </div>
         <div class="basic-info-box">
             <div class="box-content">
@@ -61,19 +64,54 @@
                 <span class="no-pic" th:text="${effect}"></span>
             </div>
         </div>
-        <a th:if="${medicine} != null" class="tcm-link" target="_blank" th:href="'../medicine/'+${medicine}">
-            中文介绍
-        </a>
     </div>
+    <a th:if="${tcm_id} != null" class="tcm-link" target="_blank" th:href="'http://zcy.ckcest.cn/tcm/search/med?medname='+${tcm_name}+'&medid='+${tcm_id}">
+        —>更多
+    </a>
+
+    <div class="basic-content" th:if="${med_origin} != null">
+        <div class="new-title">
+            <span class="title-icon"></span>
+            <span class="title-name">相关基源</span>
+        </div>
+        <div class="origin-content">
+            <span th:text="${med_origin}">为麻黄科植物草麻黄、木贼麻黄或中麻黄的草质茎。8～10月间割取绿色细枝，或连根拔起，去净泥土及根部，放通风处晾干或晾至6成干时，再晒干。放置干燥通风处，防潮防霉。《中药大辞典》</span>
+        </div>
+        <div class="origin-list">
+            <ul class="row">
+                <li th:each="origin : ${origins}" class="col-md-2">
+                    <a th:text="${origin.value}" th:href="'../origin/'+${origin.key}"></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
     <div class="basic-content">
         <div class="new-title">
             <span class="title-icon"></span>
             <span class="title-name">相关化合物</span>
         </div>
+        <table id="table-result" class="cell-border hover stripe">
+            <thead>
+            <tr>
+                <th>中药</th>
+                <th>化合物</th>
+                <th>分子式</th>
+            </tr>
+            </thead>
+
+        </table>
+    </div>
+
+    <div class="basic-content" th:if="${targets} != null">
+        <div class="new-title">
+            <span class="title-icon"></span>
+            <span class="title-name">相关蛋白质靶点</span>
+        </div>
         <div class="origin-list">
             <ul class="row">
-                <li th:each="ingredient : ${ingredients}" >
-                    <a th:text="${ingredient.value}" th:href="'../ingredient/'+${ingredient.key}"></a>
+                <li th:each="target : ${targets}" >
+                    <a th:text="${target.value}" th:href="'../target/'+${target.key}"></a>
                 </li>
             </ul>
         </div>
@@ -97,5 +135,6 @@
 <div th:replace="fragments/footer :: footer">footer</div>
 <script th:src="@{/js/jquery-3.2.1/jquery.min.js}" type="text/javascript"></script>
 <script th:src="@{/datatable/jquery.dataTables.js}" type="text/javascript"></script>
+<script th:src="@{/js/herb.js}" type="text/javascript"></script>
 </body>
 </html>
