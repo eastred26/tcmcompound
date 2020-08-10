@@ -110,7 +110,7 @@
         </div>
         <div class="origin-list">
             <ul class="row">
-                <li th:each="target : ${targets}" >
+                <li class="col-md-5" th:each="target : ${targets}" >
                     <a th:text="${target.value}" th:href="'../target/'+${target.key}"></a>
                 </li>
             </ul>

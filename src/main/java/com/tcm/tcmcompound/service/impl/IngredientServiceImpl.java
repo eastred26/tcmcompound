@@ -49,7 +49,7 @@ public class IngredientServiceImpl implements IngredientService {
     @Override
     public Map<Integer,String> getHerbsById(Integer iid){
         Map<Integer, String> allName = new LinkedHashMap<>();
-        List<Integer> list = ingredientDao.getHerbsByName(iid);
+        List<Integer> list = ingredientDao.getHerbsById(iid);
         for(int item:list){
             allName.put(item,herbDao.getHerbName(item).getName());
         }

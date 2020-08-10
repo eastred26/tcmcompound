@@ -75,7 +75,7 @@ public class TargetServiceImpl implements TargetService {
         Map<Integer, String> allName = new LinkedHashMap<>();
         Set<Integer> set=new HashSet<>();
         for(IngredientSimple item:list){
-            List<Integer> list1=ingredientDao.getHerbsByName(item.getIngredient_id());
+            List<Integer> list1=ingredientDao.getHerbsById(item.getIngredient_id());
             for(int item1:list1){
                 if(set.contains(item1))continue;
                 set.add(item1);

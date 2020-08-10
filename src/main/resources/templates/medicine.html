@@ -20,7 +20,7 @@
         当前位置：<a href="http://zcy.ckcest.cn/tcm/"> 首页 </a>> <a href="../home">中药成分结构数据专题</a>
         &gt;中药
     </div>
-    <div class="detail-head" id="tcm_detail_head" th:text="'药物：'+${name}">
+    <div class="detail-head" id="tcm_detail_head" th:text="'中药：'+${name}">
         药物：麻黄
     </div>
     <div class="basic-content">
@@ -106,7 +106,7 @@
         </div>
         <div class="origin-list">
             <ul class="row">
-                <li class="col-md-8" th:each="target : ${targets}" >
+                <li class="col-md-5" th:each="target : ${targets}" >
                     <a th:text="${target.value}" th:href="'../target/'+${target.key}"></a>
                 </li>
             </ul>

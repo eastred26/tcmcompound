@@ -11,9 +11,7 @@ import com.tcm.tcmcompound.service.HerbService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class HerbServiceImpl implements HerbService {
@@ -69,11 +67,14 @@ public class HerbServiceImpl implements HerbService {
         String ss=herbDao.getIngredients(id);
         if(ss==null)return allName;
         String []iids=ss.trim().split("\\s+");
+        Set<String> set=new HashSet<>();
         for(String item:iids){
             int iid=Integer.parseInt(item);
             String name=ingredientDao.getIngredientName(iid);
             List<String> list=ingredientDao.getTargetsByName(name);
             for(String item1:list){
+                if(set.contains(item1))continue;
+                else set.add(item1);
                 if(item1.equals("NA"))continue;
                 Integer tid=Integer.parseInt(item1);
                 allName.put(tid,targetDao.findNameById(tid));
