@@ -48,7 +48,7 @@ public class HomeController {
                 medOriginMap.put(String.valueOf(a), originNameMap);
             }
             prescriptionNameMap=prescriptionService.getAllName(String.valueOf(a));
-            if(!prescriptionNameMap.isEmpty()){
+            if(prescriptionNameMap!=null&&!prescriptionNameMap.isEmpty()){
                 prescriptionMap.put(String.valueOf(a),prescriptionNameMap);
             }
         }
